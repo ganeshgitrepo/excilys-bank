@@ -1,5 +1,7 @@
 package com.excilys.ebi.bank.web.interceptor.page;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,7 +22,8 @@ public class WebPageModelAttributeHandlerInterceptor extends AnnotatedMethodHand
 	}
 
 	@Override
-	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView) throws Exception {
+	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView, Map<String, ?> pathVariables)
+			throws Exception {
 		if (modelAndView != null)
 			modelAndView.addObject(WebPage.PAGE_MODEL, getAnnotation(handlerMethod).value());
 	}

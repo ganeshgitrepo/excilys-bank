@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,15 +59,13 @@ public class AnnotatedMethodHandlerInterceptor<A extends Annotation> implements 
 
 				@SuppressWarnings({ "rawtypes", "unchecked" })
 				Map<String, ?> pathVariables = (Map) request.getAttribute(View.PATH_VARIABLES);
-				if (pathVariables != null && modelAndView != null) {
-					modelAndView.addAllObjects(pathVariables);
-				}
-				postHandleInternal(request, response, handlerMethod, modelAndView);
+				postHandleInternal(request, response, handlerMethod, modelAndView, pathVariables);
 			}
 		}
 	}
 
-	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView) throws Exception {
+	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView, Map<String, ?> pathVariables)
+			throws Exception {
 
 	}
 
@@ -82,5 +81,14 @@ public class AnnotatedMethodHandlerInterceptor<A extends Annotation> implements 
 	}
 
 	public void afterCompletionInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, Exception ex) throws Exception {
+	}
+
+	@SuppressWarnings("unchecked")
+	protected <T> T getModelOrPathAttribute(String name, ModelMap model, Map<String, ?> pathVariables) {
+		T value = (T) model.get(name);
+		if (value == null && pathVariables != null) {
+			value = (T) pathVariables.get(name);
+		}
+		return value;
 	}
 }

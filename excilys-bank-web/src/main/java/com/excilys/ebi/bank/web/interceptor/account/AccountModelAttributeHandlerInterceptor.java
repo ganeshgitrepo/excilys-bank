@@ -1,5 +1,7 @@
 package com.excilys.ebi.bank.web.interceptor.account;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,15 +26,16 @@ public class AccountModelAttributeHandlerInterceptor extends AnnotatedMethodHand
 	}
 
 	@Override
-	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView) throws Exception {
+	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView, Map<String, ?> pathVariables)
+			throws Exception {
 		if (!(modelAndView.getView() instanceof RedirectView)) {
-			exportAccount(modelAndView.getModelMap());
+			exportAccount(modelAndView.getModelMap(), pathVariables);
 		}
 	}
 
-	private void exportAccount(ModelMap model) {
+	private void exportAccount(ModelMap model, Map<String, ?> pathVariables) {
 
-		String accountNumber = String.class.cast(model.get("accountNumber"));
+		String accountNumber = getModelOrPathAttribute("accountNumber", model, pathVariables);
 		Assert.notNull(accountNumber, "accountNumber required");
 
 		Account account = bankService.findAccountByNumberFetchCards(accountNumber);
