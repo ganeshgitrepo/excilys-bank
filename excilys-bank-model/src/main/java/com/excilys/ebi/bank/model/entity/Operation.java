@@ -39,7 +39,7 @@ public class Operation implements Serializable {
 	private OperationStatusRef status;
 	private OperationTypeRef type;
 
-	public static Builder newOperationBuilder() {
+	public static Builder newOperation() {
 		return new Builder();
 	}
 

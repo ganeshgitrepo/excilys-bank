@@ -44,10 +44,10 @@
 		<querydsl-apt-plugin.version>1.0.2</querydsl-apt-plugin.version>
 
 		<!-- spring -->
-		<spring.version>3.1.0.M2</spring.version>
-		<spring-data-jpa.version>1.1.0.M1</spring-data-jpa.version>
-		<spring-data-commons-core.version>1.2.0.M1</spring-data-commons-core.version>
-		<spring-security.version>3.1.0.RC3</spring-security.version>
+		<spring.version>3.1.0.RC2</spring.version>
+		<spring-data-jpa.version>1.0.2.RELEASE</spring-data-jpa.version>
+		<spring-data-commons-core.version>1.1.0.RELEASE</spring-data-commons-core.version>
+		<spring-security.version>3.1.0.RELEASE</spring-security.version>
 		<aspectj.version>1.6.12</aspectj.version>
 		<cloudfoundry-runtime.version>0.7.1</cloudfoundry-runtime.version>
 

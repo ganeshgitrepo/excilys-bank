@@ -1,6 +1,7 @@
 package com.excilys.ebi.bank.web.interceptor;
 
 import java.lang.annotation.Annotation;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import com.excilys.ebi.bank.service.AnnotationScanner;
 
@@ -53,6 +55,12 @@ public class AnnotatedMethodHandlerInterceptor<A extends Annotation> implements 
 		if (handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = HandlerMethod.class.cast(handler);
 			if (shouldIntercept(handlerMethod)) {
+
+				@SuppressWarnings({ "rawtypes", "unchecked" })
+				Map<String, ?> pathVariables = (Map) request.getAttribute(View.PATH_VARIABLES);
+				if (pathVariables != null && modelAndView != null) {
+					modelAndView.addAllObjects(pathVariables);
+				}
 				postHandleInternal(request, response, handlerMethod, modelAndView);
 			}
 		}

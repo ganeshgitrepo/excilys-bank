@@ -67,7 +67,7 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 		return transform(tuples, new Function<Tuple, Operation>() {
 			@Override
 			public Operation apply(Tuple input) {
-				return Operation.newOperationBuilder().withAmount(input.get(operation.amount.sum())).withCard(Card.newCardBuilder().withId(input.get(operation.card.id)).build())
+				return Operation.newOperation().withAmount(input.get(operation.amount.sum())).withCard(Card.newCardBuilder().withId(input.get(operation.card.id)).build())
 						.build();
 			}
 		});

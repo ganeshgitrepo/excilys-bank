@@ -1,5 +1,6 @@
 package com.excilys.ebi.bank.service.impl;
 
+import static com.excilys.ebi.bank.model.entity.Operation.newOperation;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.uniqueIndex;
 import static java.math.BigDecimal.ZERO;
@@ -238,10 +239,10 @@ public class BankServiceImpl implements BankService {
 		OperationStatusRef status = operationStatusDao.findOne(OperationStatus.RESOLVED);
 		OperationTypeRef type = operationTypeDao.findOne(OperationType.TRANSFER);
 
-		Operation debitOperation = new Operation.Builder().withName("transfert -" + amount).withAccount(debitedAccount).withAmount(amount.negate()).withDate(now)
-				.withStatus(status).withType(type).build();
-		Operation creditOperation = new Operation.Builder().withName("transfert +" + amount).withAccount(creditedAccount).withAmount(amount).withDate(now).withStatus(status)
+		Operation debitOperation = newOperation().withName("transfert -" + amount).withAccount(debitedAccount).withAmount(amount.negate()).withDate(now).withStatus(status)
 				.withType(type).build();
+		Operation creditOperation = newOperation().withName("transfert +" + amount).withAccount(creditedAccount).withAmount(amount).withDate(now).withStatus(status).withType(type)
+				.build();
 
 		operationDao.save(debitOperation);
 		operationDao.save(creditOperation);
