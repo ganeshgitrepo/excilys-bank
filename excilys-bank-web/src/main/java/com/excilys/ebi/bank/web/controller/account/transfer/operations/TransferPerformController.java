@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.excilys.ebi.bank.model.entity.Account;
 import com.excilys.ebi.bank.service.BankService;
@@ -27,7 +28,8 @@ import com.excilys.ebi.bank.service.UnsufficientBalanceException;
 import com.excilys.ebi.bank.web.interceptor.account.AccountModelAttribute;
 import com.excilys.ebi.bank.web.interceptor.page.WebPage;
 import com.excilys.ebi.bank.web.interceptor.page.WebPageModelAttribute;
-import com.excilys.ebi.bank.web.messages.FlashMessages;
+import com.excilys.ebi.bank.web.messages.Message;
+import com.excilys.ebi.bank.web.messages.MessageHelper;
 import com.excilys.ebi.bank.web.security.SecurityUtils;
 import com.excilys.ebi.utils.spring.log.slf4j.InjectLogger;
 import com.google.common.base.Predicate;
@@ -43,9 +45,6 @@ public class TransferPerformController {
 
 	@Autowired
 	private BankService bankService;
-
-	@Autowired
-	private FlashMessages messages;
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -79,7 +78,8 @@ public class TransferPerformController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String performTransfer(@PathVariable String accountNumber, @ModelAttribute @Valid TransferCommand command, BindingResult result, ModelMap model) {
+	public String performTransfer(@PathVariable String accountNumber, @ModelAttribute @Valid TransferCommand command, BindingResult result, ModelMap model,
+			RedirectAttributes redirectAttributes) {
 
 		if (!result.hasErrors()) {
 			try {
@@ -87,7 +87,7 @@ public class TransferPerformController {
 				Integer creditedAccountId = bankService.findAccountIdByNumber(command.getCreditedAccountNumber());
 				bankService.performTransfer(debitedAccountId, creditedAccountId, command.getAmount());
 
-				messages.add("message.info.transfer.success");
+				MessageHelper.addFlashMessage(redirectAttributes, new Message("message.info.transfer.success"));
 
 				return "redirect:/private/bank/accounts.html";
 

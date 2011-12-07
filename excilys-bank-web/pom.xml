@@ -33,10 +33,6 @@
 			<artifactId>spring-security-acl</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.excilys.ebi.utils</groupId>
-			<artifactId>flash-scope</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.cloudfoundry</groupId>
 			<artifactId>cloudfoundry-runtime</artifactId>
 		</dependency>

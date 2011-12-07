@@ -11,8 +11,10 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.excilys.ebi.bank.web.messages.FlashMessages;
+import com.excilys.ebi.bank.web.messages.Message;
+import com.excilys.ebi.bank.web.messages.MessageHelper;
 import com.excilys.ebi.bank.web.security.LoginSuccessHandler;
 
 @Controller
@@ -20,9 +22,6 @@ public class LoginController {
 
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
-
-	@Autowired
-	private FlashMessages messages;
 
 	@RequestMapping("/public/login.html")
 	public String login(ModelMap model, HttpSession session) {
@@ -37,23 +36,24 @@ public class LoginController {
 	}
 
 	@RequestMapping("/public/loginFailure.html")
-	public String loginFailure(ModelMap model, HttpSession session, HttpServletResponse res) {
+	public String loginFailure(ModelMap model, HttpSession session, HttpServletResponse res, RedirectAttributes redirectAttributes) {
 
 		Exception loginException = Exception.class.cast(session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION));
 
-		handleException(loginException);
+		Message message = handleException(loginException);
+		MessageHelper.addFlashMessage(redirectAttributes, message);
 
 		return "redirect:/public/login.html";
 	}
 
-	private void handleException(Exception loginException) {
+	private Message handleException(Exception loginException) {
 
 		if (loginException instanceof BadCredentialsException) {
-			messages.add("message.error.login.badCredentials");
+			return new Message("message.error.login.badCredentials");
 
 		} else {
 			Throwable cause = ExceptionUtils.getRootCause(loginException);
-			messages.add("message.error.login", cause != null ? cause.getMessage() : loginException.getMessage());
+			return new Message("message.error.login", cause != null ? cause.getMessage() : loginException.getMessage());
 		}
 	}
 }
