@@ -24,6 +24,10 @@
 			<id>excilys-public</id>
 			<url>http://repository.excilys.com/content/repositories/public</url>
 		</repository>
+		<repository>
+			<id>repository.jboss.org</id>
+			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+		</repository>
 	</repositories>
 
 	<properties>
@@ -33,15 +37,16 @@
 		<build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
 
 		<!-- hibernate -->
-		<hibernate.version>3.6.8.Final</hibernate.version>
+		<hibernate.version>4.0.0.CR7</hibernate.version>
 		<cglib.version>2.2.2</cglib.version>
 		<javassist.version>3.15.0-GA</javassist.version>
 		<antlr.version>2.7.7</antlr.version>
-		<usertype-jodatime.version>1.9</usertype-jodatime.version>
+		<usertype-jodatime.version>2.0</usertype-jodatime.version>
 
 		<!-- querydsl -->
 		<querydsl.version>2.2.5</querydsl.version>
 		<querydsl-apt-plugin.version>1.0.2</querydsl-apt-plugin.version>
+		<codegen.version>0.4.5</codegen.version>
 
 		<!-- spring -->
 		<spring.version>3.1.0.RC2</spring.version>
@@ -71,6 +76,7 @@
 		<commons-collections.version>3.2.1</commons-collections.version>
 		<commons-io.version>2.1</commons-io.version>
 		<commons-lang.version>2.6</commons-lang.version>
+		<commons-lang3.version>3.1</commons-lang3.version>
 		<commons-digester.version>2.1</commons-digester.version>
 		<commons-math.version>1.2</commons-math.version>
 
@@ -89,7 +95,7 @@
 
 		<!-- misc -->
 		<joda-time.version>2.0</joda-time.version>
-		<joda-time-jsptags.version>1.1</joda-time-jsptags.version>
+		<joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
 		<guava.version>10.0.1</guava.version>
 		<dbunit.version>2.4.8</dbunit.version>
 		<validation-api.version>1.0.0.GA</validation-api.version>
@@ -134,6 +140,17 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>xml-apis</artifactId>
+						<groupId>xml-apis</groupId>
+					</exclusion>
+					<!-- relocated -->
+					<exclusion>
+						<groupId>javassist</groupId>
+						<artifactId>javassist</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -195,6 +212,11 @@
 				<groupId>com.mysema.querydsl</groupId>
 				<artifactId>querydsl-apt</artifactId>
 				<version>${querydsl.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.mysema.codegen</groupId>
+				<artifactId>codegen</artifactId>
+				<version>${codegen.version}</version>
 			</dependency>
 
 			<!-- database -->
@@ -402,6 +424,11 @@
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>${commons-lang.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-digester</groupId>
