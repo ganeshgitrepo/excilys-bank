@@ -10,7 +10,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.excilys.ebi.bank.model.entity.Account;
 import com.excilys.ebi.bank.service.BankService;
@@ -28,9 +27,7 @@ public class AccountModelAttributeHandlerInterceptor extends AnnotatedMethodHand
 	@Override
 	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView, Map<String, ?> pathVariables)
 			throws Exception {
-		if (!(modelAndView.getView() instanceof RedirectView)) {
-			exportAccount(modelAndView.getModelMap(), pathVariables);
-		}
+		exportAccount(modelAndView.getModelMap(), pathVariables);
 	}
 
 	private void exportAccount(ModelMap model, Map<String, ?> pathVariables) {

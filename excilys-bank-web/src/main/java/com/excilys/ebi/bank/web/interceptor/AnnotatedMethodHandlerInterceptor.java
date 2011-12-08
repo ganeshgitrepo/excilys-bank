@@ -12,6 +12,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.excilys.ebi.bank.service.AnnotationScanner;
 
@@ -53,7 +54,7 @@ public class AnnotatedMethodHandlerInterceptor<A extends Annotation> implements 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-		if (handler instanceof HandlerMethod) {
+		if (modelAndView != null && !isRedirect(modelAndView) && handler instanceof HandlerMethod) {
 			HandlerMethod handlerMethod = HandlerMethod.class.cast(handler);
 			if (shouldIntercept(handlerMethod)) {
 
@@ -64,9 +65,12 @@ public class AnnotatedMethodHandlerInterceptor<A extends Annotation> implements 
 		}
 	}
 
+	private boolean isRedirect(ModelAndView modelAndView) {
+		return modelAndView.getView() instanceof RedirectView || (modelAndView.getViewName() != null && modelAndView.getViewName().startsWith("redirect:"));
+	}
+
 	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView, Map<String, ?> pathVariables)
 			throws Exception {
-
 	}
 
 	@Override

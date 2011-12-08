@@ -24,7 +24,6 @@ public class WebPageModelAttributeHandlerInterceptor extends AnnotatedMethodHand
 	@Override
 	protected void postHandleInternal(HttpServletRequest request, HttpServletResponse response, HandlerMethod handlerMethod, ModelAndView modelAndView, Map<String, ?> pathVariables)
 			throws Exception {
-		if (modelAndView != null)
-			modelAndView.addObject(WebPage.PAGE_MODEL, getAnnotation(handlerMethod).value());
+		modelAndView.addObject(WebPage.PAGE_MODEL, getAnnotation(handlerMethod).value());
 	}
 }
