@@ -54,7 +54,6 @@
 		<spring-data-commons-core.version>1.1.0.RELEASE</spring-data-commons-core.version>
 		<spring-security.version>3.1.0.RELEASE</spring-security.version>
 		<aspectj.version>1.6.12</aspectj.version>
-		<cloudfoundry-runtime.version>0.7.1</cloudfoundry-runtime.version>
 
 		<!-- database -->
 		<tomcat-jdbc.version>7.0.23</tomcat-jdbc.version>
@@ -100,9 +99,6 @@
 		<dbunit.version>2.4.8</dbunit.version>
 		<validation-api.version>1.0.0.GA</validation-api.version>
 		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
-		<benerator.version>0.6.6</benerator.version>
-		<contiperf.version>2.0.0</contiperf.version>
-		<xerces.version>2.11.0</xerces.version>
 		<jsr305.version>1.3.9</jsr305.version>
 	</properties>
 
@@ -335,11 +331,6 @@
 				<version>${aspectj.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.cloudfoundry</groupId>
-				<artifactId>cloudfoundry-runtime</artifactId>
-				<version>${cloudfoundry-runtime.version}</version>
-			</dependency>
-			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-core</artifactId>
 				<version>${spring-security.version}</version>
@@ -563,21 +554,6 @@
 				<groupId>net.sf.ehcache</groupId>
 				<artifactId>ehcache-web</artifactId>
 				<version>${ehcache-web.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.databene</groupId>
-				<artifactId>databene-benerator</artifactId>
-				<version>${benerator.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.databene</groupId>
-				<artifactId>contiperf</artifactId>
-				<version>${contiperf.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>xerces</groupId>
-				<artifactId>xercesImpl</artifactId>
-				<version>${xerces.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.code.findbugs</groupId>

@@ -57,10 +57,5 @@
 			<artifactId>javassist</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.cloudfoundry</groupId>
-			<artifactId>cloudfoundry-runtime</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 	</dependencies>
 </project>

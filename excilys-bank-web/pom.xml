@@ -8,8 +8,6 @@
 	<artifactId>excilys-bank-web</artifactId>
 	<packaging>war</packaging>
 
-	<!-- TODO Have a look at http://blog.springsource.com/2011/09/22/rapid-cloud-foundry-deployments-with-maven -->
-
 	<dependencies>
 		<!-- compile -->
 		<dependency>
@@ -31,10 +29,6 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-acl</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.cloudfoundry</groupId>
-			<artifactId>cloudfoundry-runtime</artifactId>
 		</dependency>
 
 		<!-- runtime -->
