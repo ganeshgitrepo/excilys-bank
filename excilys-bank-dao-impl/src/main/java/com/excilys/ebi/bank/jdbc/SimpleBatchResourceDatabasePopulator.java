@@ -1,4 +1,4 @@
-package com.excilys.ebi.bank.data.jdbc;
+package com.excilys.ebi.bank.jdbc;
 
 import java.io.IOException;
 import java.sql.Connection;

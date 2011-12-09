@@ -12,7 +12,6 @@
 		<module>excilys-bank-service-api</module>
 		<module>excilys-bank-service-impl</module>
 		<module>excilys-bank-web</module>
-		<module>excilys-bank-data</module>
 	</modules>
 
 	<repositories>
