@@ -7,7 +7,7 @@ function paginate(url) {
 }
 
 function populateTBody(data) {
-	$("#operations tbody").html($("#tbodyTemplate").tmpl(data));
+	$("#operations").find("tbody").html($("#tbodyTemplate").tmpl(data));
 }
 
 function populateScroller(data) {

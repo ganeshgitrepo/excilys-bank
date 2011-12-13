@@ -1,10 +1,10 @@
 function stripe() {
-	$(".striped tr").mouseover(function() {
+	$(".striped").find("tr").mouseover(function() {
 		$(this).addClass("over");
 	}).mouseout(function() {
 		$(this).removeClass("over");
 	});
-	$(".striped tr:nth-child(even)").addClass("alt");
+	$(".striped").find("tr:nth-child(even)").addClass("alt");
 }
 
 function message(str) {
