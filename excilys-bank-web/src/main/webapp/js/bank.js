@@ -13,6 +13,6 @@ function message(str) {
 		'dismissable' : true,
 		'click_through' : false,
 		'opacity_min' : 1,
-		'opacity_max' : 1,
+		'opacity_max' : 1
 	});
 }
