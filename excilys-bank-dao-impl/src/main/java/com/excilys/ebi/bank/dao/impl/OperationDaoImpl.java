@@ -7,9 +7,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -33,11 +30,6 @@ import com.mysema.query.types.expr.BooleanExpression;
 
 @Repository
 public class OperationDaoImpl extends QueryDslRepositorySupport implements OperationDaoCustom {
-
-	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		super.setEntityManager(entityManager);
-	}
 
 	protected JPQLQuery applyPagination(JPQLQuery query, Pageable pageable) {
 		return pageable != null ? query.offset(pageable.getOffset()).limit(pageable.getPageSize()) : query;
@@ -67,8 +59,7 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 		return transform(tuples, new Function<Tuple, Operation>() {
 			@Override
 			public Operation apply(Tuple input) {
-				return Operation.newOperation().withAmount(input.get(operation.amount.sum())).withCard(Card.newCardBuilder().withId(input.get(operation.card.id)).build())
-						.build();
+				return Operation.newOperation().withAmount(input.get(operation.amount.sum())).withCard(Card.newCardBuilder().withId(input.get(operation.card.id)).build()).build();
 			}
 		});
 	}

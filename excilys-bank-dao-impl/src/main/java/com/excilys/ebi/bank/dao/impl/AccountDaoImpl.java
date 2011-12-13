@@ -5,9 +5,6 @@ import static com.excilys.ebi.bank.model.entity.QUser.user;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -17,11 +14,6 @@ import com.excilys.ebi.bank.model.entity.User;
 
 @Repository
 public class AccountDaoImpl extends QueryDslRepositorySupport implements AccountDaoCustom {
-
-	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		super.setEntityManager(entityManager);
-	}
 
 	@Override
 	public List<Account> findByUserFetchCards(User user) {
