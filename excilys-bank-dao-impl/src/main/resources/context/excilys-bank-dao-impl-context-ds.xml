@@ -19,9 +19,7 @@
 									</list>
 								</property>
 							</bean>
-							<bean class="com.excilys.ebi.bank.jdbc.SimpleBatchResourceDatabasePopulator">
-								<property name="scripts" value="classpath:sql/data.sql" />
-							</bean>
+							<bean class="com.excilys.ebi.bank.jdbc.SimpleBatchResourceDatabasePopulator" p:scripts="classpath:sql/data.sql" />
 							<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
 								<property name="scripts">
 									<list>
