@@ -53,6 +53,7 @@
 		<spring-data-commons-core.version>1.1.0.RELEASE</spring-data-commons-core.version>
 		<spring-security.version>3.1.0.RELEASE</spring-security.version>
 		<aspectj.version>1.6.12</aspectj.version>
+		<cloudfoundry.version>0.8.1</cloudfoundry.version>
 
 		<!-- database -->
 		<tomcat-jdbc.version>7.0.23</tomcat-jdbc.version>
@@ -366,6 +367,11 @@
 				<artifactId>spring-security-acl</artifactId>
 				<version>${spring-security.version}</version>
 			</dependency>
+			<dependency>
+			<groupId>org.cloudfoundry</groupId>
+			<artifactId>cloudfoundry-runtime</artifactId>
+			<version>${cloudfoundry.version}</version>
+		</dependency>
 
 			<!-- log -->
 			<dependency>
