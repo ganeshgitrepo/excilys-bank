@@ -11,5 +11,5 @@ public interface AccountDao extends JpaRepository<Account, Integer>, AccountDaoC
 
 	Account findByNumber(String number);
 
-	List<Account> findByUsers(User user);
+	List<Account> findByUsersOrderByNumberAsc(User user);
 }

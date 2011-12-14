@@ -10,5 +10,5 @@ public interface CardDao extends JpaRepository<Card, Integer> {
 
 	Card findByNumber(String number);
 
-	List<Card> findByAccountId(Integer accountId);
+	List<Card> findByAccountIdOrderByNumberAsc(Integer accountId);
 }
