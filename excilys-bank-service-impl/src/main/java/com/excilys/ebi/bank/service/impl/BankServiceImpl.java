@@ -82,7 +82,7 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public List<Account> findAccountsByUser(User user) {
-		return accountDao.findByUsers(user);
+		return accountDao.findByUsersOrderByNumberAsc(user);
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class BankServiceImpl implements BankService {
 	@Override
 	public Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth) {
 
-		Collection<Card> cards = cardDao.findByAccountId(accountId);
+		Collection<Card> cards = cardDao.findByAccountIdOrderByNumberAsc(accountId);
 
 		Map<Card, BigDecimal[]> sums = newHashMap();
 		for (Card card : cards) {
