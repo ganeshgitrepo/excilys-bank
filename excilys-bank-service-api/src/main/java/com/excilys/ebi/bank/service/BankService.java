@@ -21,9 +21,9 @@ public interface BankService {
 
 	List<Account> findAccountsByUser(User user);
 
-	List<Account> findAccountsByUserFetchCards(User user);
+	List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(User user);
 
-	Account findAccountByNumberFetchCards(String accountNumber);
+	Account findAccountByNumberFetchCardsOrderByNumberAsc(String accountNumber);
 
 	Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page);
 

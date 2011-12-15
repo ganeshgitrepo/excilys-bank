@@ -16,15 +16,13 @@ import com.excilys.ebi.bank.model.entity.User;
 public class AccountDaoImpl extends QueryDslRepositorySupport implements AccountDaoCustom {
 
 	@Override
-	public List<Account> findByUserFetchCards(User user) {
-
-		return from(account).where(account.users.contains(user)).leftJoin(account.cards).fetch().listDistinct(account);
+	public List<Account> findByUserFetchCardsOrderByNumberAsc(User user) {
+		return from(account).where(account.users.contains(user)).leftJoin(account.cards).fetch().orderBy(account.number.asc()).listDistinct(account);
 	}
 
 	@Override
-	public Account findByNumberFetchCards(String accountNumber) {
-
-		return from(account).where(account.number.eq(accountNumber)).leftJoin(account.cards).fetch().uniqueResult(account);
+	public Account findByNumberFetchCardsOrderByNumberAsc(String accountNumber) {
+		return from(account).where(account.number.eq(accountNumber)).leftJoin(account.cards).fetch().orderBy(account.number.asc()).uniqueResult(account);
 	}
 
 	@Override

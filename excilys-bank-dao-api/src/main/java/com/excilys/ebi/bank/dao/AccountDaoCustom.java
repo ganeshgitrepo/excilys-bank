@@ -7,9 +7,9 @@ import com.excilys.ebi.bank.model.entity.User;
 
 public interface AccountDaoCustom {
 
-	List<Account> findByUserFetchCards(User user);
+	List<Account> findByUserFetchCardsOrderByNumberAsc(User user);
 
-	Account findByNumberFetchCards(String accountNumber);
+	Account findByNumberFetchCardsOrderByNumberAsc(String accountNumber);
 
 	long countAccountsByIdAndUserLogin(Integer id, String login);
 }

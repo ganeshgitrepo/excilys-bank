@@ -35,7 +35,7 @@ public class AccountModelAttributeHandlerInterceptor extends AnnotatedMethodHand
 		String accountNumber = getModelOrPathAttribute("accountNumber", model, pathVariables);
 		Assert.notNull(accountNumber, "accountNumber required");
 
-		Account account = bankService.findAccountByNumberFetchCards(accountNumber);
+		Account account = bankService.findAccountByNumberFetchCardsOrderByNumberAsc(accountNumber);
 		model.addAttribute("account", account);
 	}
 }

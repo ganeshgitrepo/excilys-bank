@@ -29,7 +29,7 @@ public class BankController {
 	@RequestMapping("/accounts.html")
 	public void home(ModelMap model) {
 
-		List<Account> accounts = bankService.findAccountsByUserFetchCards(SecurityUtils.getCurrentUser());
+		List<Account> accounts = bankService.findAccountsByUserFetchCardsOrderByNumberAsc(SecurityUtils.getCurrentUser());
 
 		model.put("checkingAccounts", filterByCategory(accounts, AccountCategory.CHECKING));
 		model.put("savingAccounts", filterByCategory(accounts, AccountCategory.SAVING));

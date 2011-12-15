@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:cloud="http://schema.cloudfoundry.org/spring"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:cloud="http://schema.cloudfoundry.org/spring"
 	xsi:schemaLocation="http://schema.cloudfoundry.org/spring http://schema.cloudfoundry.org/spring/cloudfoundry-spring-0.8.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
@@ -8,31 +7,37 @@
 		<bean id="ds" class="com.excilys.ebi.bank.jdbc.DriverUnregistringDataSource" destroy-method="close" p:driverClassName="${ds.driver}" p:url="${ds.url}" p:username="${ds.username}" p:password="${ds.password}" />
 	</beans>
 
-	<beans profile="initLocalDB">
+	<beans>
+		<bean id="preloadPopulator" class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+			<property name="scripts">
+				<list>
+					<value>classpath:sql/before-01-drop-tables.sql</value>
+					<value>classpath:sql/before-02-tables.sql</value>
+				</list>
+			</property>
+		</bean>
+
+		<bean id="postloadPopulator" class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
+			<property name="scripts">
+				<list>
+					<value>classpath:sql/after-01-indexes.sql</value>
+					<value>classpath:sql/after-02-constraint-indexes.sql</value>
+					<value>classpath:sql/after-03-sequences.sql</value>
+					<value>classpath:sql/after-04-analyze.sql</value>
+				</list>
+			</property>
+		</bean>
+	</beans>
+
+	<beans profile="initDB">
 		<bean id="dataSourceInitializer" class="org.springframework.jdbc.datasource.init.DataSourceInitializer" p:dataSource-ref="ds">
 			<property name="databasePopulator">
 				<bean class="org.springframework.jdbc.datasource.init.CompositeDatabasePopulator">
 					<property name="populators">
 						<list>
-							<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
-								<property name="scripts">
-									<list>
-										<value>classpath:sql/before-01-drop-tables.sql</value>
-										<value>classpath:sql/before-02-tables.sql</value>
-									</list>
-								</property>
-							</bean>
+							<ref bean="preloadPopulator" />
 							<bean class="com.excilys.ebi.bank.jdbc.SimpleBatchResourceDatabasePopulator" p:scripts="classpath:sql/data-big.sql" />
-							<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
-								<property name="scripts">
-									<list>
-										<value>classpath:sql/after-01-indexes.sql</value>
-										<value>classpath:sql/after-02-constraint-indexes.sql</value>
-										<value>classpath:sql/after-03-sequences.sql</value>
-										<value>classpath:sql/after-04-analyze.sql</value>
-									</list>
-								</property>
-							</bean>
+							<ref bean="postloadPopulator" />
 						</list>
 					</property>
 				</bean>
@@ -48,25 +53,9 @@
 				<bean class="org.springframework.jdbc.datasource.init.CompositeDatabasePopulator">
 					<property name="populators">
 						<list>
-							<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
-								<property name="scripts">
-									<list>
-										<value>classpath:sql/before-01-drop-tables.sql</value>
-										<value>classpath:sql/before-02-tables.sql</value>
-									</list>
-								</property>
-							</bean>
+							<ref bean="preloadPopulator" />
 							<bean class="com.excilys.ebi.bank.jdbc.SimpleBatchResourceDatabasePopulator" p:scripts="classpath:sql/data-small.sql" />
-							<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator">
-								<property name="scripts">
-									<list>
-										<value>classpath:sql/after-01-indexes.sql</value>
-										<value>classpath:sql/after-02-constraint-indexes.sql</value>
-										<value>classpath:sql/after-03-sequences.sql</value>
-										<value>classpath:sql/after-04-analyze.sql</value>
-									</list>
-								</property>
-							</bean>
+							<ref bean="postloadPopulator" />
 						</list>
 					</property>
 				</bean>

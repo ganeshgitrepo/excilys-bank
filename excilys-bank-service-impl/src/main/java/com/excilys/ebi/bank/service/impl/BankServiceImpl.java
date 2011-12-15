@@ -86,14 +86,14 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public List<Account> findAccountsByUserFetchCards(User user) {
-		return accountDao.findByUserFetchCards(user);
+	public List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(User user) {
+		return accountDao.findByUserFetchCardsOrderByNumberAsc(user);
 	}
 
 	@Override
 	@PostAuthorize("hasPermission(returnObject, 'read')")
-	public Account findAccountByNumberFetchCards(String accountNumber) {
-		return accountDao.findByNumberFetchCards(accountNumber);
+	public Account findAccountByNumberFetchCardsOrderByNumberAsc(String accountNumber) {
+		return accountDao.findByNumberFetchCardsOrderByNumberAsc(accountNumber);
 	}
 
 	@Override
