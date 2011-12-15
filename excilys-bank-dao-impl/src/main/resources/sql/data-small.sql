@@ -4508,8 +4508,6 @@ INSERT INTO usr VALUES (12, 'pa.oyi57i@psdnnjknjei.com', 'Ogsellgsg', 'Pjzadwzka
 INSERT INTO usr VALUES (13, 'g40jcm@dbgditeyxl.com', 'Thmkpfjdasjmk', 'Hrfkdlbmhn', 'user10', 'password10');
 INSERT INTO usr VALUES (14, 'lb3c.jm402hx@kvmcnftspby.com', 'Qfwtvmgaxsq', 'Vudzdzwmflkbg', 'user11', 'password11');
 INSERT INTO usr VALUES (16, 'hrhz2g6@yxxbohv.com', 'Xvmgdn', 'Gycvtebgjjbe', 'user12', 'password12');
-INSERT INTO usr VALUES (17, 'm4q_dje8@vkqqsyvz.com', 'Folsoiunao', 'Pgukimzmzwiw', 'user13', 'password13');
-INSERT INTO usr VALUES (19, 'uo.fu7tqmg@kjmrdpii.com', 'Wuauidemlq', 'Cwzwwhdzuhps', 'user14', 'password14');
 
 INSERT INTO usr_account VALUES (2, 4);
 INSERT INTO usr_account VALUES (2, 5);
