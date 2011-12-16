@@ -16,6 +16,7 @@
 
 	<repositories>
 		<repository>
+			<!-- required for cloudfoundry -->
 			<id>spring-milestone</id>
 			<url>http://maven.springframework.org/milestone</url>
 		</repository>
@@ -23,6 +24,7 @@
 			<id>excilys-public</id>
 			<url>http://repository.excilys.com/content/repositories/public</url>
 		</repository>
+		<!-- required as long as jandex is not in central -->
 		<repository>
 			<id>repository.jboss.org</id>
 			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
@@ -36,7 +38,7 @@
 		<build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
 
 		<!-- hibernate -->
-		<hibernate.version>4.0.0.CR7</hibernate.version>
+		<hibernate.version>4.0.0.Final</hibernate.version>
 		<cglib.version>2.2.2</cglib.version>
 		<javassist.version>3.15.0-GA</javassist.version>
 		<antlr.version>2.7.7</antlr.version>
@@ -59,7 +61,6 @@
 		<tomcat-jdbc.version>7.0.23</tomcat-jdbc.version>
 		<tomcat-slf4j.version>1.0.0</tomcat-slf4j.version>
 		<postgresql.version>9.1-901.jdbc4</postgresql.version>
-		<spring-dbunit.version>1.1.2</spring-dbunit.version>
 
 		<!-- cache -->
 		<ehcache.version>2.5.0</ehcache.version>
@@ -96,7 +97,6 @@
 		<joda-time.version>2.0</joda-time.version>
 		<joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
 		<guava.version>10.0.1</guava.version>
-		<dbunit.version>2.4.8</dbunit.version>
 		<validation-api.version>1.0.0.GA</validation-api.version>
 		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
 		<jsr305.version>1.3.9</jsr305.version>
@@ -230,16 +230,6 @@
 				<groupId>postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>${postgresql.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.excilys.ebi.spring-dbunit</groupId>
-				<artifactId>spring-dbunit-core</artifactId>
-				<version>${spring-dbunit.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.excilys.ebi.spring-dbunit</groupId>
-				<artifactId>spring-dbunit-servlet</artifactId>
-				<version>${spring-dbunit.version}</version>
 			</dependency>
 
 			<!-- cache -->
@@ -532,18 +522,6 @@
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
 				<version>${guava.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.dbunit</groupId>
-				<artifactId>dbunit</artifactId>
-				<version>${dbunit.version}</version>
-				<exclusions>
-					<!-- should be optional -->
-					<exclusion>
-						<groupId>junit</groupId>
-						<artifactId>junit</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>javax.validation</groupId>
