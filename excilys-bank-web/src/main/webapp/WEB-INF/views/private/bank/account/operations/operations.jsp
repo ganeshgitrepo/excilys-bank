@@ -1,3 +1,20 @@
+<%--
+
+    Copyright 2011-2012 eBusiness Information, Groupe Excilys (www.excilys.com)
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    		http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="bk" uri="http://www.excilys.com/jsp/jstl/bank"%>
 <div class="block">
@@ -6,9 +23,9 @@
 			<thead>
 				<tr>
 					<th class="dateHeader">Date</th>
-					<th>Libellé</th>
-					<th class="amountHeader">Crédit</th>
-					<th class="amountHeader">Débit</th>
+					<th>Libellï¿½</th>
+					<th class="amountHeader">Crï¿½dit</th>
+					<th class="amountHeader">Dï¿½bit</th>
 				</tr>
 				<tr>
 					<th></th>

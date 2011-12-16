@@ -29,13 +29,12 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
-
-		<!-- runtime -->
 		<dependency>
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-jdbc</artifactId>
-			<scope>runtime</scope>
 		</dependency>
+
+		<!-- runtime -->
 		<dependency>
 			<groupId>com.googlecode</groupId>
 			<artifactId>tomcat-slf4j</artifactId>

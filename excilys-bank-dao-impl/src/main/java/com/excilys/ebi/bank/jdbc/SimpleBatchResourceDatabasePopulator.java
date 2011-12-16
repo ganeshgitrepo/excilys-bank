@@ -1,3 +1,18 @@
+/**
+ * Copyright 2011-2012 eBusiness Information, Groupe Excilys (www.excilys.com)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * 		http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.excilys.ebi.bank.jdbc;
 
 import java.io.IOException;
@@ -9,8 +24,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
@@ -20,7 +35,7 @@ import org.springframework.util.StringUtils;
 
 public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 
-	private static final Log logger = LogFactory.getLog(ResourceDatabasePopulator.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ResourceDatabasePopulator.class);
 
 	private List<Resource> scripts = new ArrayList<Resource>();
 
@@ -129,8 +144,8 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 	 */
 	private void executeSqlScript(Connection connection, EncodedResource resource, boolean continueOnError, boolean ignoreFailedDrops) throws SQLException, IOException {
 
-		if (logger.isInfoEnabled()) {
-			logger.info("Executing SQL script from " + resource);
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("Executing SQL script from " + resource);
 		}
 
 		long startTime = System.currentTimeMillis();
@@ -154,8 +169,8 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 				} catch (SQLException ex) {
 					boolean dropStatement = StringUtils.startsWithIgnoreCase(statement.trim(), "drop");
 					if (continueOnError || (dropStatement && ignoreFailedDrops)) {
-						if (logger.isDebugEnabled()) {
-							logger.debug("Failed to execute SQL script statement at line " + lineNumber + " of resource " + resource + ": " + statement, ex);
+						if (LOGGER.isDebugEnabled()) {
+							LOGGER.debug("Failed to execute SQL script statement at line " + lineNumber + " of resource " + resource + ": " + statement, ex);
 						}
 					} else {
 						throw new ScriptStatementFailedException(statement, lineNumber, resource, ex);
@@ -171,12 +186,12 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 			try {
 				stmt.close();
 			} catch (Throwable ex) {
-				logger.debug("Could not close JDBC Statement", ex);
+				LOGGER.debug("Could not close JDBC Statement", ex);
 			}
 		}
 		long elapsedTime = System.currentTimeMillis() - startTime;
-		if (logger.isInfoEnabled()) {
-			logger.info("Done executing SQL script from " + resource + " in " + elapsedTime + " ms.");
+		if (LOGGER.isInfoEnabled()) {
+			LOGGER.info("Done executing SQL script from " + resource + " in " + elapsedTime + " ms.");
 		}
 	}
 }
