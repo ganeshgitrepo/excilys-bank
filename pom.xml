@@ -24,11 +24,6 @@
 			<id>excilys-public</id>
 			<url>http://repository.excilys.com/content/repositories/public</url>
 		</repository>
-		<!-- required as long as jandex is not in central -->
-		<repository>
-			<id>repository.jboss.org</id>
-			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-		</repository>
 	</repositories>
 
 	<properties>
