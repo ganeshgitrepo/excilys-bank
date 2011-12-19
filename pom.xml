@@ -612,10 +612,9 @@
 					<version>${maven-licence-plugin.version}</version>
 					<configuration>
 						<header>src/etc/header.txt</header>
-						<excludes>
-							<exclude>**/*.sql</exclude>
-							<exclude>**/logback.xml</exclude>
-						</excludes>
+						<includes>
+							<include>**/*.java</include>
+						</includes>
 					</configuration>
 					<executions>
 						<execution>
