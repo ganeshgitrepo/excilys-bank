@@ -36,11 +36,6 @@ public class AccountDaoImpl extends QueryDslRepositorySupport implements Account
 	}
 
 	@Override
-	public Account findByNumberFetchCardsOrderByNumberAsc(String accountNumber) {
-		return from(account).where(account.number.eq(accountNumber)).leftJoin(account.cards).fetch().orderBy(account.number.asc()).uniqueResult(account);
-	}
-
-	@Override
 	public long countAccountsByIdAndUserLogin(Integer id, String login) {
 		return from(account).innerJoin(account.users, user).where(account.id.eq(id), user.login.eq(login)).countDistinct();
 	}

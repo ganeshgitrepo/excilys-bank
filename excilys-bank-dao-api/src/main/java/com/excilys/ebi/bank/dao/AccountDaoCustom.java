@@ -24,7 +24,5 @@ public interface AccountDaoCustom {
 
 	List<Account> findByUserFetchCardsOrderByNumberAsc(User user);
 
-	Account findByNumberFetchCardsOrderByNumberAsc(String accountNumber);
-
 	long countAccountsByIdAndUserLogin(Integer id, String login);
 }

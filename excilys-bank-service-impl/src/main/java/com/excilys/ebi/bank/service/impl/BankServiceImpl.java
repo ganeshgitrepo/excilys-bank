@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import static org.hibernate.Hibernate.initialize;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -84,13 +85,13 @@ public class BankServiceImpl implements BankService {
 	private OperationTypeRefDao operationTypeDao;
 
 	@Override
-	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = "StringCacheKeyGenerator"))
+	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = IConstants.Cache.KEY_GENERATOR))
 	public Integer findAccountIdByNumber(String accountNumber) {
 		return accountDao.findByNumber(accountNumber).getId();
 	}
 
 	@Override
-	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = "StringCacheKeyGenerator"))
+	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = IConstants.Cache.KEY_GENERATOR))
 	public Integer findCardIdByNumber(String cardNumber) {
 		return cardDao.findByNumber(cardNumber).getId();
 	}
@@ -107,8 +108,11 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	@PostAuthorize("hasPermission(returnObject, 'read')")
-	public Account findAccountByNumberFetchCardsOrderByNumberAsc(String accountNumber) {
-		return accountDao.findByNumberFetchCardsOrderByNumberAsc(accountNumber);
+	public Account findAccountByNumberFetchCards(String accountNumber) {
+
+		Account account = accountDao.findByNumber(accountNumber);
+		initialize(account.getCards());
+		return account;
 	}
 
 	@Override
@@ -160,7 +164,6 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
-
 		return operationDao.sumResolvedAmountByAccountIdAndYearMonthAndSign(accountId, yearMonth, sign);
 	}
 
@@ -210,7 +213,6 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	public BigDecimal sumPendingCardAmountByCardIdAndSign(Integer cardId, OperationSign sign) {
-
 		return operationDao.sumCardAmountByCardIdAndYearMonthAndSignAndStatus(cardId, null, sign, OperationStatus.PENDING);
 	}
 

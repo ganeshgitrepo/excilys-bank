@@ -38,7 +38,7 @@ public interface BankService {
 
 	List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(User user);
 
-	Account findAccountByNumberFetchCardsOrderByNumberAsc(String accountNumber);
+	Account findAccountByNumberFetchCards(String accountNumber);
 
 	Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page);
 

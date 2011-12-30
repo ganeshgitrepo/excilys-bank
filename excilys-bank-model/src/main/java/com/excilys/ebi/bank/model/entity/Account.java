@@ -31,6 +31,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -117,6 +118,7 @@ public class Account implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "account", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OrderBy("number")
 	public List<Card> getCards() {
 		return cards;
 	}

@@ -19,6 +19,8 @@ public interface IConstants {
 
 	public class Cache {
 
+		public static final String KEY_GENERATOR = "StringCacheKeyGenerator";
+
 		public static final String ENTITY_CACHE = "entity";
 
 		public static final String ACL_CACHE = "acl";

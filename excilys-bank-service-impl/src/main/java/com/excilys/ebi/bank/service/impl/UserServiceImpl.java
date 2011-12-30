@@ -15,6 +15,7 @@
  */
 package com.excilys.ebi.bank.service.impl;
 
+import static org.hibernate.Hibernate.initialize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +33,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findByLoginFetchRoles(String login) {
-		return userDao.findByLoginFetchRoles(login);
+		User user = userDao.findByLogin(login);
+		if (user != null)
+			initialize(user.getRoles());
+		return user;
 	}
 
 }

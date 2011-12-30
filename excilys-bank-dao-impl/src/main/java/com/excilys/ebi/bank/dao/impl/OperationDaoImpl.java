@@ -16,6 +16,7 @@
 package com.excilys.ebi.bank.dao.impl;
 
 import static com.excilys.ebi.bank.model.entity.QOperation.operation;
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.transform;
 
 import java.math.BigDecimal;
@@ -71,12 +72,12 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 
 		List<Tuple> tuples = from(operation).where(predicate).groupBy(operation.card.id).list(new QTuple(operation.amount.sum(), operation.card.id));
 
-		return transform(tuples, new Function<Tuple, Operation>() {
+		return newArrayList(transform(tuples, new Function<Tuple, Operation>() {
 			@Override
 			public Operation apply(Tuple input) {
 				return Operation.newOperation().withAmount(input.get(operation.amount.sum())).withCard(Card.newCardBuilder().withId(input.get(operation.card.id)).build()).build();
 			}
-		});
+		}));
 	}
 
 	@Override
