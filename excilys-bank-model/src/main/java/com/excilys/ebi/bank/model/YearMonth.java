@@ -43,7 +43,7 @@ public class YearMonth {
 		return monthOfYear;
 	}
 
-	public Range<DateTime> getRange() {
+	public Range<DateTime> asRange() {
 		return range;
 	}
 }

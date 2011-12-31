@@ -37,6 +37,6 @@ public class AccountDaoImpl extends QueryDslRepositorySupport implements Account
 
 	@Override
 	public long countAccountsByIdAndUserLogin(Integer id, String login) {
-		return from(account).innerJoin(account.users, user).where(account.id.eq(id), user.login.eq(login)).countDistinct();
+		return from(account).join(account.users, user).where(account.id.eq(id), user.login.eq(login)).countDistinct();
 	}
 }
