@@ -36,6 +36,7 @@
 			<artifactId>querydsl-apt</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
 		<!-- just need hibernate so we can import @TypeDefs/@TypeDesf... -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -46,8 +47,8 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>maven-apt-plugin</artifactId>
+				<groupId>org.bsc.maven</groupId>
+				<artifactId>maven-processor-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

@@ -96,6 +96,7 @@
 
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
 		<maven-licence-plugin.version>1.9.0</maven-licence-plugin.version>
+		<maven-processor-plugin.version>2.0.5</maven-processor-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -597,21 +598,24 @@
 					<configuration>
 						<source>${java.version}</source>
 						<target>${java.version}</target>
+						<compilerArgument>-proc:none</compilerArgument>
 					</configuration>
 				</plugin>
 				<plugin>
-					<groupId>com.mysema.maven</groupId>
-					<artifactId>maven-apt-plugin</artifactId>
-					<version>${querydsl-apt-plugin.version}</version>
+					<groupId>org.bsc.maven</groupId>
+					<artifactId>maven-processor-plugin</artifactId>
+					<version>${maven-processor-plugin.version}</version>
 					<executions>
 						<execution>
-							<phase>process-resources</phase>
+							<phase>generate-sources</phase>
 							<goals>
 								<goal>process</goal>
 							</goals>
 							<configuration>
 								<outputDirectory>target/generated-sources/apt-querydsl</outputDirectory>
-								<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+								<processors>
+									<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
+								</processors>
 							</configuration>
 						</execution>
 					</executions>
