@@ -19,6 +19,7 @@ import static com.excilys.ebi.bank.model.entity.Operation.newOperation;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.uniqueIndex;
 import static java.math.BigDecimal.ZERO;
+import static org.hibernate.Hibernate.initialize;
 
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -26,7 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import static org.hibernate.Hibernate.initialize;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -86,29 +90,34 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = IConstants.Cache.KEY_GENERATOR))
-	public Integer findAccountIdByNumber(String accountNumber) {
+	@Valid
+	public Integer findAccountIdByNumber(@NotNull String accountNumber) {
 		return accountDao.findByNumber(accountNumber).getId();
 	}
 
 	@Override
 	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = IConstants.Cache.KEY_GENERATOR))
-	public Integer findCardIdByNumber(String cardNumber) {
+	@Valid
+	public Integer findCardIdByNumber(@NotNull String cardNumber) {
 		return cardDao.findByNumber(cardNumber).getId();
 	}
 
 	@Override
-	public List<Account> findAccountsByUser(User user) {
+	@Valid
+	public List<Account> findAccountsByUser(@NotNull User user) {
 		return accountDao.findByUsersOrderByNumberAsc(user);
 	}
 
 	@Override
-	public List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(User user) {
+	@Valid
+	public List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(@NotNull User user) {
 		return accountDao.findByUserFetchCardsOrderByNumberAsc(user);
 	}
 
 	@Override
 	@PostAuthorize("hasPermission(returnObject, 'read')")
-	public Account findAccountByNumberFetchCards(String accountNumber) {
+	@Valid
+	public Account findAccountByNumberFetchCards(@NotNull String accountNumber) {
 
 		Account account = accountDao.findByNumber(accountNumber);
 		initialize(account.getCards());
@@ -116,14 +125,16 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page) {
+	@Valid
+	public Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth, int page) {
 
 		Pageable pageable = new PageRequest(page, PAGE_SIZE);
 		return operationDao.findNonCardByAccountIdAndYearMonth(accountId, yearMonth, pageable);
 	}
 
 	@Override
-	public Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth) {
+	@Valid
+	public Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth) {
 
 		Collection<Card> cards = cardDao.findByAccountIdOrderByNumberAsc(accountId);
 
@@ -163,61 +174,63 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
+	@Valid
+	public BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(@NotNull Integer accountId, @NotNull YearMonth yearMonth, OperationSign sign) {
 		return operationDao.sumResolvedAmountByAccountIdAndYearMonthAndSign(accountId, yearMonth, sign);
 	}
 
 	@Override
-	public Page<Operation> findResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page) {
-
-		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		return operationDao.findCardOperationsByAccountIdAndYearMonthAndStatus(accountId, yearMonth, OperationStatus.RESOLVED, pageable);
+	@Valid
+	public Page<Operation> findResolvedCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth, int page) {
+		return operationDao.findCardOperationsByAccountIdAndYearMonthAndStatus(accountId, yearMonth, OperationStatus.RESOLVED, new PageRequest(page, PAGE_SIZE));
 	}
 
 	@Override
-	public BigDecimal sumResolvedCardAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
+	@Valid
+	public BigDecimal sumResolvedCardAmountByAccountIdAndYearMonthAndSign(@NotNull Integer accountId, @NotNull YearMonth yearMonth, OperationSign sign) {
 		return operationDao.sumCardAmountByAccountIdAndYearMonthAndSignAndStatus(accountId, yearMonth, sign, OperationStatus.RESOLVED);
 	}
 
 	@Override
-	public Page<Operation> findResolvedCardOperationsByCardIdAndYearMonth(Integer cardId, YearMonth yearMonth, int page) {
-
-		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		return operationDao.findCardOperationsByCardIdAndYearMonthAndStatus(cardId, yearMonth, OperationStatus.RESOLVED, pageable);
+	@Valid
+	public Page<Operation> findResolvedCardOperationsByCardIdAndYearMonth(@NotNull Integer cardId, @NotNull YearMonth yearMonth, int page) {
+		return operationDao.findCardOperationsByCardIdAndYearMonthAndStatus(cardId, yearMonth, OperationStatus.RESOLVED, new PageRequest(page, PAGE_SIZE));
 	}
 
 	@Override
-	public BigDecimal sumResolvedCardAmountByCardIdAndYearMonthAndSign(Integer cardId, YearMonth yearMonth, OperationSign sign) {
+	@Valid
+	public BigDecimal sumResolvedCardAmountByCardIdAndYearMonthAndSign(@NotNull Integer cardId, @NotNull YearMonth yearMonth, OperationSign sign) {
 		return operationDao.sumCardAmountByCardIdAndYearMonthAndSignAndStatus(cardId, yearMonth, sign, OperationStatus.RESOLVED);
 	}
 
 	@Override
-	public Page<Operation> findPendingCardOperationsByAccountId(Integer accountId, int page) {
-
-		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		return operationDao.findCardOperationsByAccountIdAndYearMonthAndStatus(accountId, null, OperationStatus.PENDING, pageable);
+	@Valid
+	public Page<Operation> findPendingCardOperationsByAccountId(@NotNull Integer accountId, int page) {
+		return operationDao.findCardOperationsByAccountIdAndYearMonthAndStatus(accountId, null, OperationStatus.PENDING, new PageRequest(page, PAGE_SIZE));
 	}
 
 	@Override
-	public BigDecimal sumPendingCardAmountByAccountIdAndSign(Integer accountId, OperationSign sign) {
+	@Valid
+	public BigDecimal sumPendingCardAmountByAccountIdAndSign(@NotNull Integer accountId, @NotNull OperationSign sign) {
 
 		return operationDao.sumCardAmountByAccountIdAndYearMonthAndSignAndStatus(accountId, null, sign, OperationStatus.PENDING);
 	}
 
 	@Override
-	public Page<Operation> findPendingCardOperationsByCardId(Integer cardId, int page) {
-
-		Pageable pageable = new PageRequest(page, PAGE_SIZE);
-		return operationDao.findCardOperationsByCardIdAndYearMonthAndStatus(cardId, null, OperationStatus.PENDING, pageable);
+	@Valid
+	public Page<Operation> findPendingCardOperationsByCardId(@NotNull Integer cardId, int page) {
+		return operationDao.findCardOperationsByCardIdAndYearMonthAndStatus(cardId, null, OperationStatus.PENDING, new PageRequest(page, PAGE_SIZE));
 	}
 
 	@Override
-	public BigDecimal sumPendingCardAmountByCardIdAndSign(Integer cardId, OperationSign sign) {
+	@Valid
+	public BigDecimal sumPendingCardAmountByCardIdAndSign(@NotNull Integer cardId, @NotNull OperationSign sign) {
 		return operationDao.sumCardAmountByCardIdAndYearMonthAndSignAndStatus(cardId, null, sign, OperationStatus.PENDING);
 	}
 
 	@Override
-	public boolean isClientOfAccountByAccountIdAndUserLogin(int id, String login) {
+	@Valid
+	public boolean isClientOfAccountByAccountIdAndUserLogin(@NotNull Integer id, @NotNull String login) {
 		long count = accountDao.countAccountsByIdAndUserLogin(id, login);
 		Assert.isTrue(count <= 1);
 		return count > 0;
@@ -225,18 +238,16 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	public Page<Operation> findTransferOperationsByAccountId(Integer accountId, int page) {
+	@Valid
+	public Page<Operation> findTransferOperationsByAccountId(@NotNull Integer accountId, int page) {
 		return operationDao.findTransferByAccountId(accountId, null);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	public void performTransfer(Integer debitedAccountId, Integer creditedAccountId, BigDecimal amount) throws UnsufficientBalanceException {
+	@Valid
+	public void performTransfer(@NotNull Integer debitedAccountId, @NotNull Integer creditedAccountId, @NotNull @Min(10) BigDecimal amount) throws UnsufficientBalanceException {
 
-		Assert.notNull(debitedAccountId, "debitedAccountId is required");
-		Assert.notNull(creditedAccountId, "creditedAccountId is required");
-		Assert.notNull(amount, "amount is required");
-		Assert.isTrue(amount.compareTo(BigDecimal.valueOf(10L)) >= 0, "amount must be >= 10");
 		Assert.isTrue(!debitedAccountId.equals(creditedAccountId), "accounts must be different");
 
 		Account debitedAccount = accountDao.findOne(debitedAccountId);

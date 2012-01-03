@@ -62,7 +62,7 @@ public interface BankService {
 
 	BigDecimal sumPendingCardAmountByCardIdAndSign(Integer cardId, OperationSign sign);
 
-	boolean isClientOfAccountByAccountIdAndUserLogin(int id, String login);
+	boolean isClientOfAccountByAccountIdAndUserLogin(Integer id, String login);
 
 	Page<Operation> findTransferOperationsByAccountId(Integer accountId, int page);
 

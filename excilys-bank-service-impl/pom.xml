@@ -33,11 +33,20 @@
 			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
 			<artifactId>ehcache-spring-annotations</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
 
 		<!-- runtime -->
 		<dependency>
 			<groupId>com.excilys.ebi.bank</groupId>
 			<artifactId>excilys-bank-dao-impl</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
