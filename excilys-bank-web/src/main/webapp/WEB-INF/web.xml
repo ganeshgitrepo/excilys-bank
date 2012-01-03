@@ -13,6 +13,19 @@
 	</listener>
 
 	<filter>
+		<filter-name>pauseFilter</filter-name>
+		<filter-class>com.excilys.ebi.bank.web.filter.PauseFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>pauseFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>pauseFilter</filter-name>
+		<url-pattern>*.json</url-pattern>
+	</filter-mapping>
+
+	<filter>
 		<filter-name>gzipFilter</filter-name>
 		<filter-class>net.sf.ehcache.constructs.web.filter.GzipFilter</filter-class>
 		<init-param>
