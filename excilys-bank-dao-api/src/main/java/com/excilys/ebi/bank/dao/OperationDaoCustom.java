@@ -18,6 +18,7 @@ package com.excilys.ebi.bank.dao;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -46,4 +47,6 @@ public interface OperationDaoCustom {
 	BigDecimal sumCardAmountByCardIdAndYearMonthAndSignAndStatus(Integer cardId, YearMonth yearMonth, OperationSign sign, OperationStatus status);
 
 	Page<Operation> findTransferByAccountId(Integer accountId, Pageable pageable);
+
+	DateTime getLastOperationDate();
 }

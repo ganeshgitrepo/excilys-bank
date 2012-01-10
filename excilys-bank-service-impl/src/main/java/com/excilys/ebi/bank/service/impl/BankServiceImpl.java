@@ -23,6 +23,7 @@ import static org.hibernate.Hibernate.initialize;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,6 +32,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,6 +50,7 @@ import com.excilys.ebi.bank.dao.OperationDao;
 import com.excilys.ebi.bank.dao.OperationStatusRefDao;
 import com.excilys.ebi.bank.dao.OperationTypeRefDao;
 import com.excilys.ebi.bank.dao.UserDao;
+import com.excilys.ebi.bank.model.Calendar;
 import com.excilys.ebi.bank.model.IConstants;
 import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Account;
@@ -91,15 +95,19 @@ public class BankServiceImpl implements BankService {
 	@Override
 	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = IConstants.Cache.KEY_GENERATOR))
 	@Valid
-	public Integer findAccountIdByNumber(@NotNull String accountNumber) {
-		return accountDao.findByNumber(accountNumber).getId();
+	public Integer findAccountIdByNumber(@NotNull @Length(min = 1) String accountNumber) {
+		Account account = accountDao.findByNumber(accountNumber);
+		Assert.notNull(account, "account not found");
+		return account.getId();
 	}
 
 	@Override
 	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = IConstants.Cache.KEY_GENERATOR))
 	@Valid
-	public Integer findCardIdByNumber(@NotNull String cardNumber) {
-		return cardDao.findByNumber(cardNumber).getId();
+	public Integer findCardIdByNumber(@NotNull @Length(min = 1) String cardNumber) {
+		Card card = cardDao.findByNumber(cardNumber);
+		Assert.notNull(cardNumber, "cardNumber not found");
+		return card.getId();
 	}
 
 	@Override
@@ -117,9 +125,10 @@ public class BankServiceImpl implements BankService {
 	@Override
 	@PostAuthorize("hasPermission(returnObject, 'read')")
 	@Valid
-	public Account findAccountByNumberFetchCards(@NotNull String accountNumber) {
+	public Account findAccountByNumberFetchCards(@NotNull @Length(min = 1) String accountNumber) {
 
 		Account account = accountDao.findByNumber(accountNumber);
+		Assert.notNull(account, "account not found");
 		initialize(account.getCards());
 		return account;
 	}
@@ -289,5 +298,40 @@ public class BankServiceImpl implements BankService {
 	@Override
 	public long countOperations() {
 		return operationDao.count();
+	}
+
+	@Override
+	public Calendar getCalendar(Integer year, Integer month) {
+
+		Calendar calendar = new Calendar();
+
+		// build months
+		List<DateTime> months = calendar.getMonths();
+
+		DateMidnight thisMonth = new DateMidnight().withDayOfMonth(1);
+		months.add(thisMonth.toDateTime());
+
+		// display last 6 months
+		while (months.size() < 6) {
+			thisMonth = thisMonth.minusMonths(1);
+			months.add(thisMonth.toDateTime());
+		}
+
+		Collections.reverse(months);
+
+		// build selectedMonth
+		if (year != null) {
+			Assert.notNull(month, "month is required id year is specified");
+			DateTime selectedMonth = new DateMidnight().withDayOfMonth(1).withYear(year).withMonthOfYear(month).toDateTime();
+			calendar.setSelectedMonth(selectedMonth);
+		}
+
+		return calendar;
+	}
+
+	@Override
+	public DateTime getDefaultDateTime() {
+		return operationDao.getLastOperationDate();
+		// return DateTime.now();
 	}
 }

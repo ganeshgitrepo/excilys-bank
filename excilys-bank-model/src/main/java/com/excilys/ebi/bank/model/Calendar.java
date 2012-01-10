@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.excilys.ebi.bank.web.interceptor.calendar;
+package com.excilys.ebi.bank.model;
 
 import static com.google.common.collect.Lists.newArrayList;
 

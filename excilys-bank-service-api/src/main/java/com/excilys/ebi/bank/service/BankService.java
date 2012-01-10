@@ -19,8 +19,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 
+import com.excilys.ebi.bank.model.Calendar;
 import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Account;
 import com.excilys.ebi.bank.model.entity.Card;
@@ -73,4 +75,8 @@ public interface BankService {
 	long countAccounts();
 
 	long countOperations();
+
+	Calendar getCalendar(Integer year, Integer month);
+
+	DateTime getDefaultDateTime();
 }

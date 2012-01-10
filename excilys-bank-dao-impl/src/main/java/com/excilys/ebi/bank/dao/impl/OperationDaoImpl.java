@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -165,5 +166,10 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 
 		long count = countQuery.count();
 		return count > 0 ? new PageImpl<Operation>(query.list(operation), pageable, count) : new PageImpl<Operation>(new ArrayList<Operation>(), pageable, 0);
+	}
+
+	@Override
+	public DateTime getLastOperationDate() {
+		return from(operation).uniqueResult(operation.date.max());
 	}
 }
