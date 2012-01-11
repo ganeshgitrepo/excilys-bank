@@ -19,11 +19,12 @@ import static com.excilys.ebi.bank.model.entity.Operation.newOperation;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.uniqueIndex;
 import static java.math.BigDecimal.ZERO;
+import static java.util.Collections.reverse;
 import static org.hibernate.Hibernate.initialize;
+import static org.joda.time.DateTime.now;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -272,7 +273,7 @@ public class BankServiceImpl implements BankService {
 		debitedAccount.setBalance(debitedAccount.getBalance().subtract(amount));
 		creditedAccount.setBalance(creditedAccount.getBalance().add(amount));
 
-		DateTime now = new DateTime();
+		DateTime now = now();
 		OperationStatusRef status = operationStatusDao.findOne(OperationStatus.RESOLVED);
 		OperationTypeRef type = operationTypeDao.findOne(OperationType.TRANSFER);
 
@@ -308,7 +309,7 @@ public class BankServiceImpl implements BankService {
 		// build months
 		List<DateTime> months = calendar.getMonths();
 
-		DateMidnight thisMonth = new DateMidnight().withDayOfMonth(1);
+		DateMidnight thisMonth = getDefaultDateTime().toDateMidnight().withDayOfMonth(1);
 		months.add(thisMonth.toDateTime());
 
 		// display last 6 months
@@ -317,7 +318,7 @@ public class BankServiceImpl implements BankService {
 			months.add(thisMonth.toDateTime());
 		}
 
-		Collections.reverse(months);
+		reverse(months);
 
 		// build selectedMonth
 		if (year != null) {
@@ -332,6 +333,6 @@ public class BankServiceImpl implements BankService {
 	@Override
 	public DateTime getDefaultDateTime() {
 		return operationDao.getLastOperationDate();
-		// return DateTime.now();
+		// return now();
 	}
 }
