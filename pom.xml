@@ -31,7 +31,7 @@
 		<java.version>1.6</java.version>
 
 		<!-- hibernate -->
-		<hibernate.version>4.0.0.Final</hibernate.version>
+		<hibernate.version>4.0.1.Final</hibernate.version>
 		<cglib.version>2.2.2</cglib.version>
 		<javassist.version>3.15.0-GA</javassist.version>
 		<antlr.version>2.7.7</antlr.version>
