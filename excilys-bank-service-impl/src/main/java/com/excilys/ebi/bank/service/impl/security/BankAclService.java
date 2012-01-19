@@ -28,10 +28,12 @@ import org.springframework.security.acls.model.AclService;
 import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import com.excilys.ebi.bank.dao.AclDao;
 import com.excilys.ebi.bank.model.IConstants;
 import com.excilys.ebi.bank.model.entity.ref.Role;
-import com.excilys.ebi.bank.service.BankService;
 import com.excilys.ebi.utils.spring.log.slf4j.InjectLogger;
 import com.googlecode.ehcache.annotations.Cacheable;
 import com.googlecode.ehcache.annotations.KeyGenerator;
@@ -42,7 +44,7 @@ public class BankAclService implements AclService {
 	private Logger logger;
 
 	@Autowired
-	private BankService bankService;
+	private AclDao aclDao;
 
 	@Override
 	public List<ObjectIdentity> findChildren(ObjectIdentity parentIdentity) {
@@ -56,6 +58,7 @@ public class BankAclService implements AclService {
 
 	@Override
 	@Cacheable(cacheName = IConstants.Cache.ACL_CACHE, keyGenerator = @KeyGenerator(name = "StringCacheKeyGenerator"))
+	@Transactional(readOnly = true)
 	public Acl readAclById(ObjectIdentity object, List<Sid> sids) throws NotFoundException {
 
 		SimpleAclImpl acl = new SimpleAclImpl(object);
@@ -71,7 +74,10 @@ public class BankAclService implements AclService {
 			} else if (sid instanceof PrincipalSid) {
 				Integer accountId = Integer.class.cast(object.getIdentifier());
 				String login = ((PrincipalSid) sid).getPrincipal();
-				if (bankService.isClientOfAccountByAccountIdAndUserLogin(accountId, login)) {
+				Assert.notNull(accountId, "accountId is required");
+				Assert.notNull(login, "login is required");
+
+				if (aclDao.isAccountOfUser(accountId, login)) {
 					acl.getEntries().add(new SimpleAccessControlEntryImpl(acl, sid, BasePermission.READ, true));
 					acl.getEntries().add(new SimpleAccessControlEntryImpl(acl, sid, BasePermission.WRITE, true));
 				}
@@ -90,13 +96,4 @@ public class BankAclService implements AclService {
 	public Map<ObjectIdentity, Acl> readAclsById(List<ObjectIdentity> objects, List<Sid> sids) throws NotFoundException {
 		throw new UnsupportedOperationException();
 	}
-
-	public BankService getBankService() {
-		return bankService;
-	}
-
-	public void setBankService(BankService bankService) {
-		this.bankService = bankService;
-	}
-
 }

@@ -8,16 +8,9 @@
 
 	<bean id="permissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator" c:aclService-ref="aclService" />
 
-	<!-- the way Spring Security handles processors requires to lazy load the aclService -->
-	<bean id="aclService" class="org.springframework.aop.framework.ProxyFactoryBean">
-		<property name="targetSource">
-			<bean class="org.springframework.aop.target.LazyInitTargetSource" p:targetBeanName="bankAclService" />
-		</property>
-	</bean>
+	<bean id="aclService" class="com.excilys.ebi.bank.service.impl.security.BankAclService" lazy-init="true" />
 
-	<bean id="bankAclService" class="com.excilys.ebi.bank.service.impl.security.BankAclService" lazy-init="true" />
-
-	<sec:global-method-security pre-post-annotations="enabled" proxy-target-class="false">
+	<sec:global-method-security pre-post-annotations="enabled" proxy-target-class="false" order="-1">
 		<sec:expression-handler ref="expressionHandler" />
 	</sec:global-method-security>
 </beans>

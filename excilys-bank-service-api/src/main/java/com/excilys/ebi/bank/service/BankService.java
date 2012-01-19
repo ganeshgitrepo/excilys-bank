@@ -64,8 +64,6 @@ public interface BankService {
 
 	BigDecimal sumPendingCardAmountByCardIdAndSign(Integer cardId, OperationSign sign);
 
-	boolean isClientOfAccountByAccountIdAndUserLogin(Integer id, String login);
-
 	Page<Operation> findTransferOperationsByAccountId(Integer accountId, int page);
 
 	void performTransfer(Integer debitedAccountId, Integer creditedAccountId, BigDecimal amount) throws UnsufficientBalanceException;

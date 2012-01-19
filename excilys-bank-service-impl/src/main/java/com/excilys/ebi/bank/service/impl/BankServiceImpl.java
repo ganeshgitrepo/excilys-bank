@@ -240,15 +240,6 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	@Valid
-	public boolean isClientOfAccountByAccountIdAndUserLogin(@NotNull Integer id, @NotNull String login) {
-		long count = accountDao.countAccountsByIdAndUserLogin(id, login);
-		Assert.isTrue(count <= 1);
-		return count > 0;
-
-	}
-
-	@Override
-	@Valid
 	public Page<Operation> findTransferOperationsByAccountId(@NotNull Integer accountId, int page) {
 		return operationDao.findTransferByAccountId(accountId, null);
 	}
