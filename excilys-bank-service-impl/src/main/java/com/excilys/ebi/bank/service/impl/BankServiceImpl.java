@@ -16,6 +16,8 @@
 package com.excilys.ebi.bank.service.impl;
 
 import static com.excilys.ebi.bank.model.entity.Operation.newOperation;
+import static com.excilys.ebi.bank.util.Asserts.isTrue;
+import static com.excilys.ebi.bank.util.Asserts.notNull;
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Maps.uniqueIndex;
 import static java.math.BigDecimal.ZERO;
@@ -43,7 +45,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import com.excilys.ebi.bank.dao.AccountDao;
 import com.excilys.ebi.bank.dao.CardDao;
@@ -98,7 +99,7 @@ public class BankServiceImpl implements BankService {
 	@Valid
 	public Integer findAccountIdByNumber(@NotNull @Length(min = 1) String accountNumber) {
 		Account account = accountDao.findByNumber(accountNumber);
-		Assert.notNull(account, "account not found");
+		notNull(account, "account with number {} not found", accountNumber);
 		return account.getId();
 	}
 
@@ -107,7 +108,7 @@ public class BankServiceImpl implements BankService {
 	@Valid
 	public Integer findCardIdByNumber(@NotNull @Length(min = 1) String cardNumber) {
 		Card card = cardDao.findByNumber(cardNumber);
-		Assert.notNull(cardNumber, "cardNumber not found");
+		notNull(cardNumber, "card with number {} not found", cardNumber);
 		return card.getId();
 	}
 
@@ -129,7 +130,7 @@ public class BankServiceImpl implements BankService {
 	public Account findAccountByNumberFetchCards(@NotNull @Length(min = 1) String accountNumber) {
 
 		Account account = accountDao.findByNumber(accountNumber);
-		Assert.notNull(account, "account not found");
+		notNull(account, "account with number {} not found", accountNumber);
 		initialize(account.getCards());
 		return account;
 	}
@@ -249,17 +250,17 @@ public class BankServiceImpl implements BankService {
 	@Valid
 	public void performTransfer(@NotNull Integer debitedAccountId, @NotNull Integer creditedAccountId, @NotNull @Min(10) BigDecimal amount) throws UnsufficientBalanceException {
 
-		Assert.isTrue(!debitedAccountId.equals(creditedAccountId), "accounts must be different");
+		isTrue(!debitedAccountId.equals(creditedAccountId), "accounts must be different");
 
 		Account debitedAccount = accountDao.findOne(debitedAccountId);
-		Assert.notNull(debitedAccount, "unknown account");
+		notNull(debitedAccount, "account with number {} not found", debitedAccount);
 
 		if (debitedAccount.getBalance().compareTo(amount) < 0) {
 			throw new UnsufficientBalanceException();
 		}
 
 		Account creditedAccount = accountDao.findOne(creditedAccountId);
-		Assert.notNull(creditedAccount, "unknown account");
+		notNull(creditedAccount, "account with number {} not found", creditedAccount);
 
 		debitedAccount.setBalance(debitedAccount.getBalance().subtract(amount));
 		creditedAccount.setBalance(creditedAccount.getBalance().add(amount));
@@ -313,7 +314,7 @@ public class BankServiceImpl implements BankService {
 
 		// build selectedMonth
 		if (year != null) {
-			Assert.notNull(month, "month is required id year is specified");
+			notNull(month, "month is required if year is specified");
 			DateTime selectedMonth = new DateMidnight().withDayOfMonth(1).withYear(year).withMonthOfYear(month).toDateTime();
 			calendar.setSelectedMonth(selectedMonth);
 		}
