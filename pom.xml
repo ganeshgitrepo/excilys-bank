@@ -81,7 +81,7 @@
 		<!-- FIXME http://java.net/jira/browse/JAWR-204 -->
 		<jawr.version>3.5.20111116</jawr.version>
 		<jstl.version>1.2</jstl.version>
-		<jackson.version>1.9.2</jackson.version>
+		<jackson.version>1.9.4</jackson.version>
 		<smartsprites.version>0.2.8</smartsprites.version>
 		<urlrewritefilter.version>3.2.0</urlrewritefilter.version>
 		<ehcache-web.version>2.0.4</ehcache-web.version>
