@@ -30,6 +30,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-acl</artifactId>
 		</dependency>
+		<dependency>
+			<!-- as long as https://jira.springsource.org/browse/SPR-8347 is not fixed -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
 
 		<!-- runtime -->
 		<dependency>
