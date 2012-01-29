@@ -40,7 +40,7 @@
 		<!-- querydsl -->
 		<querydsl.version>2.3.0</querydsl.version>
 		<querydsl-apt-plugin.version>1.0.2</querydsl-apt-plugin.version>
-		<codegen.version>0.4.6</codegen.version>
+		<codegen.version>0.4.7</codegen.version>
 
 		<!-- spring -->
 		<spring.version>3.1.0.RELEASE</spring.version>
