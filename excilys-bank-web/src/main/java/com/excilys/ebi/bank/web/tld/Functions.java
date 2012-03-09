@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections15.CollectionUtils;
 import org.joda.time.DateTime;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.web.context.request.RequestContextHolder;

@@ -31,15 +31,14 @@
 		<java.version>1.6</java.version>
 
 		<!-- hibernate -->
-		<hibernate.version>4.1.0.Final</hibernate.version>
+		<hibernate.version>4.1.1.Final</hibernate.version>
 		<cglib.version>2.2.2</cglib.version>
-		<javassist.version>3.15.0-GA</javassist.version>
+		<javassist.version>3.16.1-GA</javassist.version>
 		<antlr.version>2.7.7</antlr.version>
 		<usertype-jodatime.version>2.0</usertype-jodatime.version>
 
 		<!-- querydsl -->
-		<querydsl.version>2.3.1</querydsl.version>
-		<querydsl-apt-plugin.version>1.0.2</querydsl-apt-plugin.version>
+		<querydsl.version>2.3.2</querydsl.version>
 		<codegen.version>0.4.8</codegen.version>
 
 		<!-- spring -->
@@ -61,12 +60,11 @@
 
 		<!-- log -->
 		<slf4j.version>1.6.4</slf4j.version>
-		<logback.version>1.0.0</logback.version>
+		<logback.version>1.0.1</logback.version>
 		<spring-log.version>1.0.2</spring-log.version>
 
 		<!-- commons -->
 		<commons-logging.version>99.0-does-not-exist</commons-logging.version>
-		<commons-collections.version>3.2.1</commons-collections.version>
 		<commons-io.version>2.1</commons-io.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
@@ -81,7 +79,7 @@
 		<!-- FIXME http://java.net/jira/browse/JAWR-204 -->
 		<jawr.version>3.5.20111116</jawr.version>
 		<jstl.version>1.2</jstl.version>
-		<jackson.version>1.9.4</jackson.version>
+		<jackson.version>1.9.5</jackson.version>
 		<smartsprites.version>0.2.8</smartsprites.version>
 		<urlrewritefilter.version>3.2.0</urlrewritefilter.version>
 		<ehcache-web.version>2.0.4</ehcache-web.version>
@@ -398,11 +396,6 @@
 			</dependency>
 
 			<!-- commons -->
-			<dependency>
-				<groupId>commons-collections</groupId>
-				<artifactId>commons-collections</artifactId>
-				<version>${commons-collections.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
