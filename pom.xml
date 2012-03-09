@@ -80,14 +80,14 @@
 		<jawr.version>3.5.20111116</jawr.version>
 		<jstl.version>1.2</jstl.version>
 		<jackson.version>1.9.5</jackson.version>
-		<smartsprites.version>0.2.8</smartsprites.version>
+		<smartsprites.version>0.2.9-20120223</smartsprites.version>
 		<urlrewritefilter.version>3.2.0</urlrewritefilter.version>
 		<ehcache-web.version>2.0.4</ehcache-web.version>
 
 		<!-- misc -->
 		<joda-time.version>2.0</joda-time.version>
 		<joda-time-jsptags.version>1.1.1</joda-time-jsptags.version>
-		<guava.version>10.0.1</guava.version>
+		<guava.version>11.0.2</guava.version>
 		<validation-api.version>1.0.0.GA</validation-api.version>
 		<hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
 		<findbugs.version>2.0.0</findbugs.version>
