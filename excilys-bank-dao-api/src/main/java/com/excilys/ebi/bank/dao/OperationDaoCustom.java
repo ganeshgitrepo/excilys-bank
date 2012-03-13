@@ -19,10 +19,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.YearMonth;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.excilys.ebi.bank.model.YearMonth;
 import com.excilys.ebi.bank.model.entity.Card;
 import com.excilys.ebi.bank.model.entity.Operation;
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
