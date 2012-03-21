@@ -4,7 +4,8 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 	<beans profile="default, initDB">
-		<bean id="ds" class="com.excilys.ebi.bank.jdbc.DriverUnregistringDataSource" destroy-method="close" p:driverClassName="${ds.driver}" p:url="${ds.url}" p:username="${ds.username}" p:password="${ds.password}" />
+		<bean id="ds" class="com.excilys.ebi.bank.jdbc.DriverUnregistringDataSource" destroy-method="close" p:driverClassName="${ds.driver}" p:url="${ds.url}" p:username="${ds.username}" p:password="${ds.password}"
+			p:maxActive="500" p:minIdle="80" />
 	</beans>
 
 	<beans>
@@ -36,7 +37,7 @@
 					<property name="populators">
 						<list>
 							<ref bean="preloadPopulator" />
-							<bean class="com.excilys.ebi.bank.jdbc.SimpleBatchResourceDatabasePopulator" p:scripts="classpath:sql/data-big.sql" />
+							<bean class="com.excilys.ebi.bank.jdbc.SimpleBatchResourceDatabasePopulator" p:scripts="classpath:sql/data-bench.sql" />
 							<ref bean="postloadPopulator" />
 						</list>
 					</property>
