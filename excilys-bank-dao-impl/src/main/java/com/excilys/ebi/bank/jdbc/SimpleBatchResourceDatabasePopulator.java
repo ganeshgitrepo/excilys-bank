@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -49,7 +50,7 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 
 	/**
 	 * Add a script to execute to populate the database.
-	 * 
+	 *
 	 * @param script
 	 *            the path to a SQL script
 	 */
@@ -59,7 +60,7 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 
 	/**
 	 * Set the scripts to execute to populate the database.
-	 * 
+	 *
 	 * @param scripts
 	 *            the scripts to execute
 	 */
@@ -71,7 +72,7 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 	 * Specify the encoding for SQL scripts, if different from the platform
 	 * encoding. Note setting this property has no effect on added scripts that
 	 * are already {@link EncodedResource encoded resources}.
-	 * 
+	 *
 	 * @see #addScript(Resource)
 	 */
 	public void setSqlScriptEncoding(String sqlScriptEncoding) {
@@ -129,7 +130,7 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 	 * separators} will be removed.
 	 * <p>
 	 * <b>Do not use this method to execute DDL if you expect rollback.</b>
-	 * 
+	 *
 	 * @param connection
 	 *            the JDBC Connection with which to perform JDBC operations
 	 * @param resource
@@ -149,7 +150,7 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 		}
 
 		long startTime = System.currentTimeMillis();
-		List<String> statements = IOUtils.readLines(resource.getReader());
+		Iterator<String> statements = IOUtils.lineIterator(resource.getReader());
 		int lineNumber = 0;
 
 		boolean initialAutoCommitState = connection.getAutoCommit();
@@ -157,7 +158,8 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 		connection.setAutoCommit(false);
 		Statement stmt = connection.createStatement();
 		try {
-			for (String statement : statements) {
+			while (statements.hasNext()) {
+				String statement = statements.next();
 				lineNumber++;
 				try {
 					stmt.addBatch(statement);
@@ -173,7 +175,8 @@ public class SimpleBatchResourceDatabasePopulator implements DatabasePopulator {
 							LOGGER.debug("Failed to execute SQL script statement at line " + lineNumber + " of resource " + resource + ": " + statement, ex);
 						}
 					} else {
-						throw new ScriptStatementFailedException(statement, lineNumber, resource, ex);
+						Exception nextException = ex.getNextException();
+						throw new ScriptStatementFailedException(statement, lineNumber, resource, nextException != null? nextException : ex);
 					}
 				}
 			}
