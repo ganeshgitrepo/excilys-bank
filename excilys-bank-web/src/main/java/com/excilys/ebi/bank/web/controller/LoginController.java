@@ -41,8 +41,7 @@ public class LoginController {
 	@RequestMapping("/public/login.html")
 	public String login(ModelMap model, HttpSession session) {
 
-		// hack : can't check SecurityContextHolder has login.html is not
-		// protected by Spring Security
+		// hack : can't check SecurityContextHolder as login.html is not protected by Spring Security
 		if (session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY) != null) {
 			return "redirect:" + loginSuccessHandler.getHomeUrl();
 		}
