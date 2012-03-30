@@ -33,7 +33,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 
@@ -45,23 +44,34 @@ public class Account implements Serializable {
 
 	private static final long serialVersionUID = 6057067260381947770L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID", length = 20)
 	private Integer id;
 
+	@Column(name = "NUMBER", nullable = false, unique = true, length = 20)
 	private String number;
 
+	@Column(name = "BALANCE", nullable = false)
 	private BigDecimal balance;
 
+	@Column(name = "BALANCE_DATE")
 	private DateTime balanceDate;
 
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "TYPE", nullable = false, updatable = false)
 	private AccountTypeRef type;
 
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "accounts")
 	private List<User> users = newArrayList();
 
+	@OneToMany(mappedBy = "account", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Operation> operations = newArrayList();
 
+	@OneToMany(mappedBy = "account", orphanRemoval = true, cascade = CascadeType.ALL)
+	@OrderBy("number")
 	private List<Card> cards = newArrayList();
 
-	@Transient
 	public BigDecimal getTotalPending() {
 
 		BigDecimal totalPending = BigDecimal.valueOf(0.0);
@@ -74,51 +84,38 @@ public class Account implements Serializable {
 		return totalPending;
 	}
 
-	@Transient
 	public BigDecimal getEstimatedBalance() {
 		return balance.add(getTotalPending());
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID", length = 20)
 	public Integer getId() {
 		return id;
 	}
 
-	@Column(name = "NUMBER", nullable = false, unique = true, length = 20)
 	public String getNumber() {
 		return number;
 	}
 
-	@Column(name = "BALANCE", nullable = false)
 	public BigDecimal getBalance() {
 		return balance;
 	}
 
-	@Column(name = "BALANCE_DATE")
 	public DateTime getBalanceDate() {
 		return balanceDate;
 	}
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "TYPE", nullable = false, updatable = false)
 	public AccountTypeRef getType() {
 		return type;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "accounts")
 	public List<User> getUsers() {
 		return users;
 	}
 
-	@OneToMany(mappedBy = "account", orphanRemoval = true, cascade = CascadeType.ALL)
 	public List<Operation> getOperations() {
 		return operations;
 	}
 
-	@OneToMany(mappedBy = "account", orphanRemoval = true, cascade = CascadeType.ALL)
-	@OrderBy("number")
 	public List<Card> getCards() {
 		return cards;
 	}

@@ -41,55 +41,62 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = -3337363339851986363L;
 
-	private Integer id;
-	private String login;
-	private String firstName;
-	private String lastName;
-	private String password;
-	private String email;
-	private List<Account> accounts = newArrayList();
-	private List<RoleRef> roles = newArrayList();
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
+	private Integer id;
+
+	@Column(name = "LOGIN", nullable = false, unique = true, length = 30)
+	private String login;
+
+	@Column(name = "FIRSTNAME", nullable = false, length = 30)
+	private String firstName;
+
+	@Column(name = "LASTNAME", nullable = false, length = 30)
+	private String lastName;
+
+	@Column(name = "PASSWORD", nullable = false, length = 30)
+	private String password;
+
+	@Column(name = "EMAIL", nullable = false, length = 30)
+	private String email;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "USR_ACCOUNT", joinColumns = { @JoinColumn(name = "USR_ID") }, inverseJoinColumns = { @JoinColumn(name = "ACCOUNT_ID") })
+	private List<Account> accounts = newArrayList();
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "USR_ROLE", joinColumns = { @JoinColumn(name = "USR_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+	private List<RoleRef> roles = newArrayList();
+
 	public Integer getId() {
 		return id;
 	}
 
-	@Column(name = "LOGIN", nullable = false, unique = true, length = 30)
 	public String getLogin() {
 		return login;
 	}
 
-	@Column(name = "FIRSTNAME", nullable = false, length = 30)
 	public String getFirstName() {
 		return firstName;
 	}
 
-	@Column(name = "LASTNAME", nullable = false, length = 30)
 	public String getLastName() {
 		return lastName;
 	}
 
-	@Column(name = "PASSWORD", nullable = false, length = 30)
 	public String getPassword() {
 		return password;
 	}
 
-	@Column(name = "EMAIL", nullable = false, length = 30)
 	public String getEmail() {
 		return email;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "USR_ACCOUNT", joinColumns = { @JoinColumn(name = "USR_ID") }, inverseJoinColumns = { @JoinColumn(name = "ACCOUNT_ID") })
 	public List<Account> getAccounts() {
 		return accounts;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "USR_ROLE", joinColumns = { @JoinColumn(name = "USR_ID") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
 	public List<RoleRef> getRoles() {
 		return roles;
 	}
