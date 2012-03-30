@@ -160,8 +160,13 @@ public class OperationDaoImpl extends QueryDslRepositorySupport implements Opera
 	}
 
 	private BooleanExpression addOperationYearMonthExpression(BooleanExpression predicate, QOperation operation, YearMonth yearMonth) {
-		Interval range = yearMonth.toInterval();
-		return yearMonth != null ? predicate.and(operation.date.between(range.getStart(), range.getEnd())) : predicate;
+
+		if (yearMonth == null)
+			return predicate;
+		else {
+			Interval range = yearMonth.toInterval();
+			return predicate.and(operation.date.between(range.getStart(), range.getEnd()));
+		}
 	}
 
 	private Page<Operation> buildPage(JPQLQuery countQuery, JPQLQuery query, Pageable pageable) {
