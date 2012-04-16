@@ -31,7 +31,7 @@
 		<java.version>1.6</java.version>
 
 		<!-- hibernate -->
-		<hibernate.version>4.1.1.Final</hibernate.version>
+		<hibernate.version>4.1.2.Final</hibernate.version>
 		<cglib.version>2.2.2</cglib.version>
 		<javassist.version>3.16.1-GA</javassist.version>
 		<antlr.version>2.7.7</antlr.version>
@@ -50,7 +50,7 @@
 		<cloudfoundry.version>0.8.1</cloudfoundry.version>
 
 		<!-- database -->
-		<tomcat-jdbc.version>7.0.26</tomcat-jdbc.version>
+		<tomcat-jdbc.version>7.0.27</tomcat-jdbc.version>
 		<tomcat-slf4j.version>1.0.0</tomcat-slf4j.version>
 		<postgresql.version>9.1-901-1.jdbc4</postgresql.version>
 
@@ -65,7 +65,7 @@
 
 		<!-- commons -->
 		<commons-logging.version>99.0-does-not-exist</commons-logging.version>
-		<commons-io.version>2.1</commons-io.version>
+		<commons-io.version>2.3</commons-io.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-lang3.version>3.1</commons-lang3.version>
 		<commons-digester.version>2.1</commons-digester.version>
@@ -93,7 +93,7 @@
 		<findbugs.version>2.0.0</findbugs.version>
 
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
-		<maven-licence-plugin.version>1.9.0</maven-licence-plugin.version>
+		<maven-license-plugin.version>1.10.b1</maven-license-plugin.version>
 		<maven-processor-plugin.version>2.0.5</maven-processor-plugin.version>
 	</properties>
 
@@ -599,7 +599,7 @@
 				<plugin>
 					<groupId>com.mycila.maven-license-plugin</groupId>
 					<artifactId>maven-license-plugin</artifactId>
-					<version>${maven-licence-plugin.version}</version>
+					<version>${maven-license-plugin.version}</version>
 					<configuration>
 						<header>src/etc/header.txt</header>
 						<includes>
