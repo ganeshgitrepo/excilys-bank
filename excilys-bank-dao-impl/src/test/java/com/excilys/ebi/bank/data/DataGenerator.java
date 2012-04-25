@@ -26,7 +26,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 public class DataGenerator {
 
-	private static final int NUMBER_OF_USERS = 20000;
+	private static final int NUMBER_OF_USERS = 100;
 	private static final int NUMBER_OF_ACCOUNTS_PER_USER = 3;
 	private static final int NUMBER_OF_NON_CARD_OPERATIONS_PER_ACCOUNT = 80;
 	private static final int NUMBER_OF_CARD_OPERATIONS_PER_CARD = 80;
@@ -39,7 +39,7 @@ public class DataGenerator {
 	public static void main(String[] args) throws Exception {
 
 		OutputStreamWriter writer = new OutputStreamWriter(new BufferedOutputStream(new FileOutputStream(
-				"/Users/stephanelandelle/Documents/Techno/dev/workspaces/workspace-excilys/excilys-bank/excilys-bank-dao-impl/src/main/resources/sql/data-bench.sql")));
+				"/Users/stephanelandelle/Documents/Techno/dev/workspaces/workspace-excilys/excilys-bank/excilys-bank-dao-impl/src/main/resources/sql/data-h2.sql")));
 
 		try {
 			writeln(writer, "INSERT INTO ref_role VALUES ('ROLE_USER', 'user');");

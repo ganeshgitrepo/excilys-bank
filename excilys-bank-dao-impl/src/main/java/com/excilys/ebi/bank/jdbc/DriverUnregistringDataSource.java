@@ -26,10 +26,10 @@ public class DriverUnregistringDataSource extends DataSource {
 	@Override
 	public void close() {
 		super.close();
-		Driver mySqlDriver;
+		Driver driver;
 		try {
-			mySqlDriver = DriverManager.getDriver(getUrl());
-			DriverManager.deregisterDriver(mySqlDriver);
+			driver = DriverManager.getDriver(getUrl());
+			DriverManager.deregisterDriver(driver);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
