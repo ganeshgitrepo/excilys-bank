@@ -38,8 +38,8 @@
 		<usertype-jodatime.version>2.0</usertype-jodatime.version>
 
 		<!-- querydsl -->
-		<querydsl.version>2.3.3</querydsl.version>
-		<codegen.version>0.4.10</codegen.version>
+		<querydsl.version>2.5.0</querydsl.version>
+		<codegen.version>0.4.11</codegen.version>
 
 		<!-- spring -->
 		<spring.version>3.1.1.RELEASE</spring.version>
@@ -96,6 +96,8 @@
 		<maven-compiler-plugin.version>2.3.2</maven-compiler-plugin.version>
 		<maven-license-plugin.version>1.10.b1</maven-license-plugin.version>
 		<maven-processor-plugin.version>2.0.5</maven-processor-plugin.version>
+
+		<querydsl-apt-dir>target/generated-sources/apt-querydsl</querydsl-apt-dir>
 	</properties>
 
 	<dependencyManagement>
@@ -308,6 +310,12 @@
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-commons-core</artifactId>
 				<version>${spring-data-commons-core.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit-dep</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.aspectj</groupId>
@@ -594,7 +602,7 @@
 								<goal>process</goal>
 							</goals>
 							<configuration>
-								<outputDirectory>target/generated-sources/apt-querydsl</outputDirectory>
+								<outputDirectory>${querydsl-apt-dir}</outputDirectory>
 								<processors>
 									<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
 								</processors>
@@ -633,7 +641,7 @@
 									<pluginExecutionFilter>
 										<groupId>com.mycila.maven-license-plugin</groupId>
 										<artifactId>maven-license-plugin</artifactId>
-										<versionRange>[1.9.0,)</versionRange>
+										<versionRange>[${maven-license-plugin.version},)</versionRange>
 										<goals>
 											<goal>format</goal>
 										</goals>
@@ -652,6 +660,12 @@
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<compilerArgument>-proc:none</compilerArgument>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

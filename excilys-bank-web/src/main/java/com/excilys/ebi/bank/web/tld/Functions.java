@@ -16,10 +16,10 @@
 package com.excilys.ebi.bank.web.tld;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections15.CollectionUtils;
 import org.joda.time.DateTime;
 import org.springframework.security.web.util.UrlUtils;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -75,6 +75,6 @@ public class Functions {
 	}
 
 	public static int size(Object object) {
-		return CollectionUtils.size(object);
+		return object instanceof Collection ? Collection.class.cast(object).size() : 0;
 	}
 }
