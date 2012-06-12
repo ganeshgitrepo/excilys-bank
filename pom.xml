@@ -96,6 +96,7 @@
 
 		<maven-compiler-plugin.version>2.4</maven-compiler-plugin.version>
 		<maven-license-plugin.version>1.10.b1</maven-license-plugin.version>
+		<maven-processor-plugin.version>2.0.5</maven-processor-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -593,6 +594,11 @@
 						<source>${java.version}</source>
 						<target>${java.version}</target>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.bsc.maven</groupId>
+					<artifactId>maven-processor-plugin</artifactId>
+					<version>${maven-processor-plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>com.mycila.maven-license-plugin</groupId>
