@@ -23,12 +23,11 @@ import javax.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 
+@SuppressWarnings("serial")
 @MappedSuperclass
 @Getter
 @Setter
 public abstract class Ref implements Serializable {
-
-	private static final long serialVersionUID = -7525352878822322301L;
 
 	@Column(name = "NAME", length = 20)
 	private String name;

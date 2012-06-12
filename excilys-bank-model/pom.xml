@@ -21,15 +21,16 @@
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-		</dependency>
 
 		<!-- provided -->
 		<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
@@ -43,8 +44,13 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.bsc.maven</groupId>
-				<artifactId>maven-processor-plugin</artifactId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessors>
+						<annotationProcessor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</annotationProcessor>
+						<annotationProcessor>lombok.core.AnnotationProcessor</annotationProcessor>
+					</annotationProcessors>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

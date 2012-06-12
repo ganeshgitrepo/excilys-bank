@@ -30,14 +30,13 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.excilys.ebi.bank.model.IConstants;
 
+@SuppressWarnings("serial")
 @Entity(name = "REF_ROLE")
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = IConstants.Cache.ENTITY_CACHE)
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id", callSuper = false, doNotUseGetters = true)
 public class RoleRef extends Ref {
-
-	private static final long serialVersionUID = 3416012584227710916L;
 
 	@Id
 	@Column(name = "ID", length = 20)

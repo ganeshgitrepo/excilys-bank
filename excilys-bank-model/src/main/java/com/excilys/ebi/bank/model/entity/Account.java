@@ -42,14 +42,13 @@ import org.joda.time.DateTime;
 
 import com.excilys.ebi.bank.model.entity.ref.AccountTypeRef;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "ACCOUNT")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "number", doNotUseGetters = true)
 public class Account implements Serializable {
-
-	private static final long serialVersionUID = 6057067260381947770L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

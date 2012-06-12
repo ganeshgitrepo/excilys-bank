@@ -39,17 +39,13 @@ import com.excilys.ebi.bank.model.entity.ref.OperationSign;
 import com.excilys.ebi.bank.model.entity.ref.OperationStatusRef;
 import com.excilys.ebi.bank.model.entity.ref.OperationTypeRef;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "OPERATION")
 @Getter
 @Setter
 @EqualsAndHashCode(of = { "account", "date" }, doNotUseGetters = true)
 public class Operation implements Serializable {
-
-	/**
-	 * serialVersionUID
-	 */
-	private static final long serialVersionUID = -2903197989437525974L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -37,14 +37,13 @@ import lombok.Setter;
 
 import com.excilys.ebi.bank.model.entity.ref.RoleRef;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "USR")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "login", doNotUseGetters = true)
 public class User implements Serializable {
-
-	private static final long serialVersionUID = -3337363339851986363L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

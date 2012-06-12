@@ -33,6 +33,7 @@ import org.hibernate.annotations.Immutable;
 
 import com.excilys.ebi.bank.model.IConstants;
 
+@SuppressWarnings("serial")
 @Entity(name = "REF_ACCOUNT_TYPE")
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = IConstants.Cache.ENTITY_CACHE)
 @Immutable
@@ -40,8 +41,6 @@ import com.excilys.ebi.bank.model.IConstants;
 @Setter
 @EqualsAndHashCode(of = "id", callSuper = false, doNotUseGetters = true)
 public class AccountTypeRef extends Ref {
-
-	private static final long serialVersionUID = 3416012584227710916L;
 
 	@Id
 	@Column(name = "ID", length = 20)
