@@ -29,6 +29,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.joda.time.DateTime;
 
 import com.excilys.ebi.bank.model.entity.ref.OperationSign;
@@ -37,6 +41,9 @@ import com.excilys.ebi.bank.model.entity.ref.OperationTypeRef;
 
 @Entity
 @Table(name = "OPERATION")
+@Getter
+@Setter
+@EqualsAndHashCode(of = { "account", "date" }, doNotUseGetters = true)
 public class Operation implements Serializable {
 
 	/**
@@ -129,100 +136,5 @@ public class Operation implements Serializable {
 
 	public OperationSign getSign() {
 		return OperationSign.getSign(amount);
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public DateTime getDate() {
-		return date;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public Card getCard() {
-		return card;
-	}
-
-	public OperationStatusRef getStatus() {
-		return status;
-	}
-
-	public OperationTypeRef getType() {
-		return type;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setDate(DateTime date) {
-		this.date = date;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public void setCard(Card card) {
-		this.card = card;
-	}
-
-	public void setStatus(OperationStatusRef status) {
-		this.status = status;
-	}
-
-	public void setType(OperationTypeRef type) {
-		this.type = type;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((account == null) ? 0 : account.hashCode());
-		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Operation other = (Operation) obj;
-		if (account == null) {
-			if (other.account != null)
-				return false;
-		} else if (!account.equals(other.account))
-			return false;
-		if (date == null) {
-			if (other.date != null)
-				return false;
-		} else if (!date.equals(other.date))
-			return false;
-		return true;
 	}
 }

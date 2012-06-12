@@ -21,6 +21,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Immutable;
@@ -30,43 +34,15 @@ import com.excilys.ebi.bank.model.IConstants;
 @Entity(name = "REF_OPERATION_TYPE")
 @Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = IConstants.Cache.ENTITY_CACHE)
 @Immutable
+@Getter
+@Setter
+@EqualsAndHashCode(of = "id", callSuper = false, doNotUseGetters = true)
 public class OperationTypeRef extends Ref {
 
 	private static final long serialVersionUID = 3416012584227710916L;
 
-	private OperationType id;
-
 	@Id
 	@Column(name = "ID", length = 20)
 	@Enumerated(EnumType.STRING)
-	public OperationType getId() {
-		return id;
-	}
-
-	public void setId(OperationType id) {
-		this.id = id;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OperationTypeRef other = (OperationTypeRef) obj;
-		if (id != other.id)
-			return false;
-		return true;
-	}
-
+	private OperationType id;
 }

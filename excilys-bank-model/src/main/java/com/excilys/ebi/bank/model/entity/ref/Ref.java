@@ -20,19 +20,16 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @MappedSuperclass
+@Getter
+@Setter
 public abstract class Ref implements Serializable {
 
 	private static final long serialVersionUID = -7525352878822322301L;
 
-	private String name;
-
 	@Column(name = "NAME", length = 20)
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	private String name;
 }

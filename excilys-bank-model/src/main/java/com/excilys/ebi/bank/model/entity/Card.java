@@ -33,6 +33,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.joda.time.DateTime;
 
 import com.excilys.ebi.bank.model.entity.ref.CardTypeRef;
@@ -40,6 +44,9 @@ import com.excilys.ebi.bank.model.entity.ref.CardTypeRef;
 @Entity
 @Table(name = "CARD")
 @SuppressWarnings("serial")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "number", doNotUseGetters = true)
 public class Card implements Serializable {
 
 	@Id
@@ -114,86 +121,4 @@ public class Card implements Serializable {
 			return card;
 		}
 	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public CardTypeRef getType() {
-		return type;
-	}
-
-	public BigDecimal getPending() {
-		return pending;
-	}
-
-	public DateTime getPendingDate() {
-		return pendingDate;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public List<Operation> getOperations() {
-		return operations;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public void setType(CardTypeRef type) {
-		this.type = type;
-	}
-
-	public void setPending(BigDecimal pending) {
-		this.pending = pending;
-	}
-
-	public void setPendingDate(DateTime pendingDate) {
-		this.pendingDate = pendingDate;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public void setOperations(List<Operation> operations) {
-		this.operations = operations;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((number == null) ? 0 : number.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Card other = (Card) obj;
-		if (number == null) {
-			if (other.number != null)
-				return false;
-		} else if (!number.equals(other.number))
-			return false;
-		return true;
-	}
-
 }
