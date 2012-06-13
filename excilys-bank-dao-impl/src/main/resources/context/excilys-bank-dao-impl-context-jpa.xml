@@ -1,58 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:cloud="http://schema.cloudfoundry.org/spring"
-	xsi:schemaLocation="http://schema.cloudfoundry.org/spring http://schema.cloudfoundry.org/spring/cloudfoundry-spring-0.8.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<util:constant id="DIALECT" static-field="org.hibernate.cfg.Environment.DIALECT" />
-	<util:constant id="HBM2DDL_AUTO" static-field="org.hibernate.cfg.Environment.HBM2DDL_AUTO" />
-	<util:constant id="FORMAT_SQL" static-field="org.hibernate.cfg.Environment.FORMAT_SQL" />
-	<util:constant id="USE_SQL_COMMENTS" static-field="org.hibernate.cfg.Environment.USE_SQL_COMMENTS" />
-	<util:constant id="CACHE_REGION_FACTORY" static-field="org.hibernate.cfg.Environment.CACHE_REGION_FACTORY" />
-	<util:constant id="USE_SECOND_LEVEL_CACHE" static-field="org.hibernate.cfg.Environment.USE_SECOND_LEVEL_CACHE" />
-	<util:constant id="DEFAULT_BATCH_FETCH_SIZE" static-field="org.hibernate.cfg.Environment.DEFAULT_BATCH_FETCH_SIZE" />
-	<util:constant id="STATEMENT_BATCH_SIZE" static-field="org.hibernate.cfg.Environment.STATEMENT_BATCH_SIZE" />
-	<util:constant id="STATEMENT_FETCH_SIZE" static-field="org.hibernate.cfg.Environment.STATEMENT_FETCH_SIZE" />
-	<util:constant id="HBM2DDL_IMPORT_FILES" static-field="org.hibernate.cfg.Environment.HBM2DDL_IMPORT_FILES" />
 
-	<bean id="abstractJpaVendorAdapter" class="com.excilys.ebi.bank.hibernate.ExtendedHibernateJpaVendorAdapter" abstract="true">
-		<property name="jpaPropertyMap">
-			<map>
-				<entry key-ref="FORMAT_SQL" value="true" />
-				<entry key-ref="USE_SQL_COMMENTS" value="false" />
-				<entry key-ref="CACHE_REGION_FACTORY" value="org.hibernate.cache.SingletonEhCacheRegionFactory" />
-				<entry key-ref="USE_SECOND_LEVEL_CACHE" value="true" />
-				<entry key-ref="DEFAULT_BATCH_FETCH_SIZE" value="20" />
-				<entry key-ref="STATEMENT_BATCH_SIZE" value="20" />
-				<entry key-ref="STATEMENT_FETCH_SIZE" value="20" />
-			</map>
+	<bean id="abstractEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:dataSource-ref="ds" abstract="true">
+		<!-- can't use packagesToScan in order to skip persistence.xml because of https://jira.springsource.org/browse/SPR-8921 -->
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
 	</bean>
 
-	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:dataSource-ref="ds">
-		<!-- can't use packagesToScan in order to skip persistence.xml because of https://jira.springsource.org/browse/SPR-8921 -->
-		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-	</bean>
-
 	<beans profile="embeddedDB">
-		<bean id="jpaVendorAdapter" parent="abstractJpaVendorAdapter">
-			<property name="jpaPropertyMap">
-				<map merge="true">
-					<entry key-ref="DIALECT" value="org.hibernate.dialect.H2Dialect" />
-				</map>
-			</property>
-		</bean>
+		<bean id="emf" parent="abstractEmf" p:persistenceXmlLocation="classpath:META-INF/persistence-h2.xml" />
 	</beans>
 
 	<beans profile="remoteDB,cloud">
-		<bean id="jpaVendorAdapter" parent="abstractJpaVendorAdapter">
-			<property name="jpaPropertyMap">
-				<map merge="true">
-					<entry key-ref="DIALECT" value="${emf.dialect}" />
-				</map>
-			</property>
-		</bean>
+		<bean id="emf" parent="abstractEmf" p:persistenceXmlLocation="classpath:META-INF/persistence-postgresql.xml" />
 	</beans>
 </beans>

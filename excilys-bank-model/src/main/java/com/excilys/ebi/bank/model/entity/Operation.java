@@ -77,6 +77,10 @@ public class Operation implements Serializable {
 	@JoinColumn(name = "TYPE", nullable = false)
 	private OperationTypeRef type;
 
+	public OperationSign getSign() {
+		return OperationSign.getSign(amount);
+	}
+
 	public static Builder newOperation() {
 		return new Builder();
 	}
@@ -128,9 +132,5 @@ public class Operation implements Serializable {
 		public Operation build() {
 			return operation;
 		}
-	}
-
-	public OperationSign getSign() {
-		return OperationSign.getSign(amount);
 	}
 }
