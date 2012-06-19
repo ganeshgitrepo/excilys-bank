@@ -31,11 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.YearMonth;
@@ -46,6 +43,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import com.excilys.ebi.bank.dao.AccountDao;
 import com.excilys.ebi.bank.dao.CardDao;
@@ -72,6 +70,7 @@ import com.googlecode.ehcache.annotations.KeyGenerator;
 
 @Service
 @Transactional(readOnly = true)
+@Validated
 public class BankServiceImpl implements BankService {
 
 	private static final int PAGE_SIZE = 20;
@@ -96,8 +95,7 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = IConstants.Cache.KEY_GENERATOR))
-	@Valid
-	public Integer findAccountIdByNumber(@NotNull @Length(min = 1) String accountNumber) {
+	public Integer findAccountIdByNumber(String accountNumber) {
 		Account account = accountDao.findByNumber(accountNumber);
 		notNull(account, "account with number {} not found", accountNumber);
 		return account.getId();
@@ -105,29 +103,25 @@ public class BankServiceImpl implements BankService {
 
 	@Override
 	@Cacheable(cacheName = IConstants.Cache.ENTITY_CACHE, keyGenerator = @KeyGenerator(name = IConstants.Cache.KEY_GENERATOR))
-	@Valid
-	public Integer findCardIdByNumber(@NotNull @Length(min = 1) String cardNumber) {
+	public Integer findCardIdByNumber(String cardNumber) {
 		Card card = cardDao.findByNumber(cardNumber);
 		notNull(cardNumber, "card with number {} not found", cardNumber);
 		return card.getId();
 	}
 
 	@Override
-	@Valid
-	public List<Account> findAccountsByUser(@NotNull User user) {
+	public List<Account> findAccountsByUser(User user) {
 		return accountDao.findByUsersOrderByNumberAsc(user);
 	}
 
 	@Override
-	@Valid
-	public List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(@NotNull User user) {
+	public List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(User user) {
 		return accountDao.findByUserFetchCardsOrderByNumberAsc(user);
 	}
 
 	@Override
 	@PostAuthorize("hasPermission(returnObject, 'read')")
-	@Valid
-	public Account findAccountByNumberFetchCards(@NotNull @Length(min = 1) String accountNumber) {
+	public Account findAccountByNumberFetchCards(String accountNumber) {
 
 		Account account = accountDao.findByNumber(accountNumber);
 		notNull(account, "account with number {} not found", accountNumber);
@@ -136,16 +130,14 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	@Valid
-	public Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth, int page) {
+	public Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page) {
 
 		Pageable pageable = new PageRequest(page, PAGE_SIZE);
 		return operationDao.findNonCardByAccountIdAndYearMonth(accountId, yearMonth, pageable);
 	}
 
 	@Override
-	@Valid
-	public Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth) {
+	public Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth) {
 
 		Collection<Card> cards = cardDao.findByAccountIdOrderByNumberAsc(accountId);
 
@@ -185,70 +177,59 @@ public class BankServiceImpl implements BankService {
 	}
 
 	@Override
-	@Valid
-	public BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(@NotNull Integer accountId, @NotNull YearMonth yearMonth, OperationSign sign) {
+	public BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
 		return operationDao.sumResolvedAmountByAccountIdAndYearMonthAndSign(accountId, yearMonth, sign);
 	}
 
 	@Override
-	@Valid
-	public Page<Operation> findResolvedCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth, int page) {
+	public Page<Operation> findResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page) {
 		return operationDao.findCardOperationsByAccountIdAndYearMonthAndStatus(accountId, yearMonth, OperationStatus.RESOLVED, new PageRequest(page, PAGE_SIZE));
 	}
 
 	@Override
-	@Valid
-	public BigDecimal sumResolvedCardAmountByAccountIdAndYearMonthAndSign(@NotNull Integer accountId, @NotNull YearMonth yearMonth, OperationSign sign) {
+	public BigDecimal sumResolvedCardAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign) {
 		return operationDao.sumCardAmountByAccountIdAndYearMonthAndSignAndStatus(accountId, yearMonth, sign, OperationStatus.RESOLVED);
 	}
 
 	@Override
-	@Valid
-	public Page<Operation> findResolvedCardOperationsByCardIdAndYearMonth(@NotNull Integer cardId, @NotNull YearMonth yearMonth, int page) {
+	public Page<Operation> findResolvedCardOperationsByCardIdAndYearMonth(Integer cardId, YearMonth yearMonth, int page) {
 		return operationDao.findCardOperationsByCardIdAndYearMonthAndStatus(cardId, yearMonth, OperationStatus.RESOLVED, new PageRequest(page, PAGE_SIZE));
 	}
 
 	@Override
-	@Valid
-	public BigDecimal sumResolvedCardAmountByCardIdAndYearMonthAndSign(@NotNull Integer cardId, @NotNull YearMonth yearMonth, OperationSign sign) {
+	public BigDecimal sumResolvedCardAmountByCardIdAndYearMonthAndSign(Integer cardId, YearMonth yearMonth, OperationSign sign) {
 		return operationDao.sumCardAmountByCardIdAndYearMonthAndSignAndStatus(cardId, yearMonth, sign, OperationStatus.RESOLVED);
 	}
 
 	@Override
-	@Valid
-	public Page<Operation> findPendingCardOperationsByAccountId(@NotNull Integer accountId, int page) {
+	public Page<Operation> findPendingCardOperationsByAccountId(Integer accountId, int page) {
 		return operationDao.findCardOperationsByAccountIdAndYearMonthAndStatus(accountId, null, OperationStatus.PENDING, new PageRequest(page, PAGE_SIZE));
 	}
 
 	@Override
-	@Valid
-	public BigDecimal sumPendingCardAmountByAccountIdAndSign(@NotNull Integer accountId, @NotNull OperationSign sign) {
+	public BigDecimal sumPendingCardAmountByAccountIdAndSign(Integer accountId, OperationSign sign) {
 
 		return operationDao.sumCardAmountByAccountIdAndYearMonthAndSignAndStatus(accountId, null, sign, OperationStatus.PENDING);
 	}
 
 	@Override
-	@Valid
-	public Page<Operation> findPendingCardOperationsByCardId(@NotNull Integer cardId, int page) {
+	public Page<Operation> findPendingCardOperationsByCardId(Integer cardId, int page) {
 		return operationDao.findCardOperationsByCardIdAndYearMonthAndStatus(cardId, null, OperationStatus.PENDING, new PageRequest(page, PAGE_SIZE));
 	}
 
 	@Override
-	@Valid
-	public BigDecimal sumPendingCardAmountByCardIdAndSign(@NotNull Integer cardId, @NotNull OperationSign sign) {
+	public BigDecimal sumPendingCardAmountByCardIdAndSign(Integer cardId, OperationSign sign) {
 		return operationDao.sumCardAmountByCardIdAndYearMonthAndSignAndStatus(cardId, null, sign, OperationStatus.PENDING);
 	}
 
 	@Override
-	@Valid
-	public Page<Operation> findTransferOperationsByAccountId(@NotNull Integer accountId, int page) {
+	public Page<Operation> findTransferOperationsByAccountId(Integer accountId, int page) {
 		return operationDao.findTransferByAccountId(accountId, null);
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	@Valid
-	public void performTransfer(@NotNull Integer debitedAccountId, @NotNull Integer creditedAccountId, @NotNull @Min(10) BigDecimal amount) throws UnsufficientBalanceException {
+	public void performTransfer(Integer debitedAccountId, Integer creditedAccountId, @Min(10) BigDecimal amount) throws UnsufficientBalanceException {
 
 		isTrue(!debitedAccountId.equals(creditedAccountId), "accounts must be different");
 

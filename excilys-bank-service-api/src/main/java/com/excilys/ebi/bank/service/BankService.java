@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateTime;
 import org.joda.time.YearMonth;
 import org.springframework.data.domain.Page;
@@ -32,41 +35,41 @@ import com.excilys.ebi.bank.model.entity.ref.OperationSign;
 
 public interface BankService {
 
-	Integer findAccountIdByNumber(String accountNumber);
+	Integer findAccountIdByNumber(@NotNull @Length(min = 1) String accountNumber);
 
-	Integer findCardIdByNumber(String cardNumber);
+	Integer findCardIdByNumber(@NotNull @Length(min = 1) String cardNumber);
 
-	List<Account> findAccountsByUser(User user);
+	List<Account> findAccountsByUser(@NotNull User user);
 
-	List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(User user);
+	List<Account> findAccountsByUserFetchCardsOrderByNumberAsc(@NotNull User user);
 
-	Account findAccountByNumberFetchCards(String accountNumber);
+	Account findAccountByNumberFetchCards(@NotNull @Length(min = 1) String accountNumber);
 
-	Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page);
+	Page<Operation> findNonCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth, int page);
 
-	Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth);
+	Map<Card, BigDecimal[]> sumResolvedCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth);
 
-	BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign);
+	BigDecimal sumResolvedAmountByAccountIdAndYearMonthAndSign(@NotNull Integer accountId, @NotNull YearMonth yearMonth, @NotNull OperationSign sign);
 
-	Page<Operation> findResolvedCardOperationsByAccountIdAndYearMonth(Integer accountId, YearMonth yearMonth, int page);
+	Page<Operation> findResolvedCardOperationsByAccountIdAndYearMonth(@NotNull Integer accountId, @NotNull YearMonth yearMonth, int page);
 
-	BigDecimal sumResolvedCardAmountByAccountIdAndYearMonthAndSign(Integer accountId, YearMonth yearMonth, OperationSign sign);
+	BigDecimal sumResolvedCardAmountByAccountIdAndYearMonthAndSign(@NotNull Integer accountId, @NotNull YearMonth yearMonth, @NotNull OperationSign sign);
 
-	Page<Operation> findResolvedCardOperationsByCardIdAndYearMonth(Integer cardId, YearMonth yearMonth, int page);
+	Page<Operation> findResolvedCardOperationsByCardIdAndYearMonth(@NotNull Integer cardId, @NotNull YearMonth yearMonth, int page);
 
-	BigDecimal sumResolvedCardAmountByCardIdAndYearMonthAndSign(Integer cardId, YearMonth yearMonth, OperationSign sign);
+	BigDecimal sumResolvedCardAmountByCardIdAndYearMonthAndSign(@NotNull Integer cardId, @NotNull YearMonth yearMonth, @NotNull OperationSign sign);
 
-	Page<Operation> findPendingCardOperationsByAccountId(Integer accountId, int page);
+	Page<Operation> findPendingCardOperationsByAccountId(@NotNull Integer accountId, int page);
 
-	BigDecimal sumPendingCardAmountByAccountIdAndSign(Integer accountId, OperationSign sign);
+	BigDecimal sumPendingCardAmountByAccountIdAndSign(@NotNull Integer accountId, @NotNull OperationSign sign);
 
-	Page<Operation> findPendingCardOperationsByCardId(Integer cardId, int page);
+	Page<Operation> findPendingCardOperationsByCardId(@NotNull Integer cardId, int page);
 
-	BigDecimal sumPendingCardAmountByCardIdAndSign(Integer cardId, OperationSign sign);
+	BigDecimal sumPendingCardAmountByCardIdAndSign(@NotNull Integer cardId, @NotNull OperationSign sign);
 
-	Page<Operation> findTransferOperationsByAccountId(Integer accountId, int page);
+	Page<Operation> findTransferOperationsByAccountId(@NotNull Integer accountId, int page);
 
-	void performTransfer(Integer debitedAccountId, Integer creditedAccountId, BigDecimal amount) throws UnsufficientBalanceException;
+	void performTransfer(@NotNull Integer debitedAccountId, @NotNull Integer creditedAccountId, BigDecimal amount) throws UnsufficientBalanceException;
 
 	long countUsers();
 
@@ -74,7 +77,7 @@ public interface BankService {
 
 	long countOperations();
 
-	Calendar getCalendar(Integer year, Integer month);
+	Calendar getCalendar(@NotNull Integer year, @NotNull Integer month);
 
 	DateTime getDefaultDateTime();
 }
