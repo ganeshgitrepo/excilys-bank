@@ -2,20 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-
-	<bean id="abstractEmf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:dataSource-ref="ds" abstract="true">
+	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" p:dataSource-ref="ds" p:persistenceXmlLocation="classpath:META-INF/persistence-h2.xml">
 		<!-- can't use packagesToScan in order to skip persistence.xml because of https://jira.springsource.org/browse/SPR-8921 -->
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		</property>
 	</bean>
 
-	<beans profile="embeddedDB">
-		<bean id="emf" parent="abstractEmf" p:persistenceXmlLocation="classpath:META-INF/persistence-h2.xml" />
-	</beans>
-
-	<beans profile="remoteDB,cloud">
-		<bean id="emf" parent="abstractEmf" p:persistenceXmlLocation="classpath:META-INF/persistence-postgresql.xml" />
-	</beans>
 </beans>

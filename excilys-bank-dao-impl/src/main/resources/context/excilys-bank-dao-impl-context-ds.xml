@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xmlns:cloud="http://schema.cloudfoundry.org/spring"
-	xmlns:jee="http://www.springframework.org/schema/jee"
-	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
-		http://schema.cloudfoundry.org/spring http://schema.cloudfoundry.org/spring/cloudfoundry-spring-0.8.xsd
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-	<beans profile="default">
-		<jee:jndi-lookup jndi-name="ds" />
-	</beans>
+	<bean id="ds" class="com.excilys.ebi.bank.jdbc.DriverUnregistringDataSource" destroy-method="close" p:driverClassName="org.h2.Driver" p:url="jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE" p:username="sa"
+		p:password="" />
 
-	<beans profile="embeddedDB">
-		<bean id="ds" class="com.excilys.ebi.bank.jdbc.DriverUnregistringDataSource" destroy-method="close" p:driverClassName="org.h2.Driver" p:url="jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=FALSE" p:username="sa"
-			p:password="" />
+	<bean id="h2server" class="com.excilys.ebi.bank.h2database.H2Helper" destroy-method="shutDown" />
 
-		<bean id="h2server" class="com.excilys.ebi.bank.h2database.H2Helper" destroy-method="shutDown" />
-
-		<bean id="dataSourceInitializer" class="org.springframework.jdbc.datasource.init.DataSourceInitializer" p:dataSource-ref="ds">
-			<property name="databasePopulator">
-				<bean class="org.springframework.jdbc.datasource.init.CompositeDatabasePopulator">
-					<property name="populators">
-						<list>
-							<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:sql/h2-before.sql" />
-							<bean class="com.excilys.ebi.bank.jdbc.SimpleBatchResourceDatabasePopulator" p:scripts="classpath:sql/h2-data.sql" />
-							<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:sql/h2-after.sql" />
-						</list>
-					</property>
-				</bean>
-			</property>
-		</bean>
-	</beans>
-
-	<beans profile="cloud">
-		<cloud:data-source id="ds" service-name="postgresql" />
-	</beans>
+	<bean id="dataSourceInitializer" class="org.springframework.jdbc.datasource.init.DataSourceInitializer" p:dataSource-ref="ds">
+		<property name="databasePopulator">
+			<bean class="org.springframework.jdbc.datasource.init.CompositeDatabasePopulator">
+				<property name="populators">
+					<list>
+						<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:sql/h2-before.sql" />
+						<bean class="com.excilys.ebi.bank.jdbc.SimpleBatchResourceDatabasePopulator" p:scripts="classpath:sql/h2-data.sql" />
+						<bean class="org.springframework.jdbc.datasource.init.ResourceDatabasePopulator" p:scripts="classpath:sql/h2-after.sql" />
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
 
 </beans>

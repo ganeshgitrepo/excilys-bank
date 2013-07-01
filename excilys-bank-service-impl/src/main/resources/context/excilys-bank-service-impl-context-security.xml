@@ -8,7 +8,7 @@
 
 	<bean id="permissionEvaluator" class="org.springframework.security.acls.AclPermissionEvaluator" c:aclService-ref="aclService" />
 
-	<bean id="aclService" class="com.excilys.ebi.bank.service.impl.security.BankAclService" lazy-init="true" />
+	<bean id="aclService" class="com.excilys.ebi.bank.service.impl.security.BankAclService" />
 
 	<sec:global-method-security pre-post-annotations="enabled" proxy-target-class="false" order="-1">
 		<sec:expression-handler ref="expressionHandler" />

@@ -18,6 +18,8 @@ package com.excilys.ebi.bank.service.impl.security;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.acls.domain.BasePermission;
@@ -31,7 +33,7 @@ import org.springframework.security.acls.model.Sid;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.excilys.ebi.bank.dao.AclDao;
+import com.excilys.ebi.bank.dao.AccountDao;
 import com.excilys.ebi.bank.model.IConstants;
 import com.excilys.ebi.bank.model.entity.ref.Role;
 import com.excilys.ebi.utils.spring.log.slf4j.InjectLogger;
@@ -43,8 +45,10 @@ public class BankAclService implements AclService {
 	@InjectLogger
 	private Logger logger;
 
-	@Autowired
-	private AclDao aclDao;
+//	@Autowired
+	// FIXME WTF!!! Autowired doesn't work
+	@Resource(name = "accountDao")
+	private AccountDao accountDao;
 
 	@Override
 	public List<ObjectIdentity> findChildren(ObjectIdentity parentIdentity) {
@@ -77,7 +81,7 @@ public class BankAclService implements AclService {
 				Assert.notNull(accountId, "accountId is required");
 				Assert.notNull(login, "login is required");
 
-				if (aclDao.isAccountOfUser(accountId, login)) {
+				if (accountDao.isAccountOfUser(accountId, login)) {
 					acl.getEntries().add(new SimpleAccessControlEntryImpl(acl, sid, BasePermission.READ, true));
 					acl.getEntries().add(new SimpleAccessControlEntryImpl(acl, sid, BasePermission.WRITE, true));
 				}

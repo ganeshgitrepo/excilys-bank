@@ -49,6 +49,10 @@ import com.mysema.query.types.expr.BooleanExpression;
 @Repository
 public class OperationDaoImpl extends QueryDslRepositorySupport implements OperationDaoCustom {
 
+	public OperationDaoImpl() {
+		super(Operation.class);
+	}
+
 	protected JPQLQuery applyPagination(JPQLQuery query, Pageable pageable) {
 		return pageable != null ? query.offset(pageable.getOffset()).limit(pageable.getPageSize()) : query;
 	}

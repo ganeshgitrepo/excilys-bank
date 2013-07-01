@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import com.excilys.ebi.bank.dao.AccountDaoCustom;
 import com.excilys.ebi.bank.model.entity.Account;
@@ -29,6 +30,10 @@ import com.excilys.ebi.bank.model.entity.User;
 
 @Repository
 public class AccountDaoImpl extends QueryDslRepositorySupport implements AccountDaoCustom {
+
+	public AccountDaoImpl() {
+		super(Account.class);
+	}
 
 	@Override
 	public List<Account> findByUserFetchCardsOrderByNumberAsc(User user) {
@@ -38,5 +43,12 @@ public class AccountDaoImpl extends QueryDslRepositorySupport implements Account
 	@Override
 	public long countAccountsByIdAndUserLogin(Integer id, String login) {
 		return from(account).join(account.users, user).where(account.id.eq(id), user.login.eq(login)).countDistinct();
+	}
+
+	@Override
+	public boolean isAccountOfUser(Integer id, String login) {
+		long count = from(account).join(account.users, user).where(account.id.eq(id), user.login.eq(login)).countDistinct();
+		Assert.state(count <= 1, "Shouldn't count more than one account");
+		return count > 0;
 	}
 }
